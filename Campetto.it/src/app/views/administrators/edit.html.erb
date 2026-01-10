@@ -1,0 +1,21 @@
+<div style="" >
+    <h3>Il tuo account amministratore:</h3>
+    <%= form_for(@administrator) do |f| %>
+        <%= f.label :name, "Nome:"%>
+        <%= f.text_field :name, class: "form-control" %>
+
+        <%= f.label :surname, "Surname:*" %>
+        <%= f.text_field :surname, required: true, class: "form-control" %>
+
+        <%= f.label :email, "Email:*" %>
+        <%= f.email_field :email, required: true, class: "form-control" %>
+
+        <%= f.label :password, "Nuova password:" %>
+        <%= f.password_field :password, class: "form-control" %>
+
+        <%= f.label :password_confirmation, "Conferma password:"%>
+        <%= f.password_field :password_confirmation, class: "form-control" %>
+
+        <%= f.submit "Create new administrator", class: "buttonCerca" %>
+    <% end %>
+</div>

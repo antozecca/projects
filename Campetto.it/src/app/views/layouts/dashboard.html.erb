@@ -1,0 +1,43 @@
+<!-- app/views/admin/administrators/dashboard.html.erb -->
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <title><%= yield(:title) %> | Campetto.it</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag 'dashboard_layout', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+<body>
+  <% if yield(:role) == 'Administrator' %>
+    <% @layout_variable_username = "#{@administrator.name} #{@administrator.surname}".split.map(&:capitalize).join(' ') %>
+  <% elsif yield(:role) == 'Partner' %>
+    <% @layout_variable_username = "#{@partner.name} #{@partner.surname}".split.map(&:capitalize).join(' ') %>
+  <% end %>
+
+
+    <%= render 'layouts/header_dashboard.html.erb'%>
+    <main id="-tp-main">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+    <script
+		src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+		crossorigin="anonymous"
+    ></script>
+    
+    
+    <%= yield %>
+    </main>
+    
+    <%= render 'layouts/footer_dashboard.html.erb' %>
+	<%  if yield(:role) == 'Administrator'%>
+    <%end%>
+</body>
+</html>
+

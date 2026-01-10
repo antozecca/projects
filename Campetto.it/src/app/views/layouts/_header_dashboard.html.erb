@@ -1,0 +1,47 @@
+<header id="-tp-header">
+    <div id="-tp-header-wrap">
+        <div id="-tp-header-heading">
+            <!-- Logo e Titolo a Sinistra -->
+            <%= link_to root_url, id: "-tp-header-heading-a" do%>
+                <div id="-tp-header-heading-a-title">Campetto.it</div>
+            <% end %>
+
+            <!-- Sezione Utente e Logout a Destra -->
+            <div id="-tp-header-heading-ctr">
+                <!-- Sezione Utente con Icona e Nome -->
+                <%if yield(:role) == 'Partner' %>
+                    <div>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sportscenter-new">Nuovo centro sportivo</button>
+                    </div>
+
+                    <div id="-tp-header-heading-sportscenter">
+                        <select id="-tp-header-heading-sportscenter-chooser">
+                            <!--Qui inserire con Javascript i campi sportivi-->
+                            <!-- Se non c'è nessun campo sportivo non mostrare-->
+                        </select>
+                    </div>
+                    
+                <% end %>
+                
+                <!--Qui va inserito il link all'edit del profilo-->
+                <% if @administrator %>
+                <a href="<%= administrator_profile_path %>", style="text-decoration: none">
+                    <div id="manual-account">
+                            <i class="fas fa-user-circle"></i>
+                            <span><%= @layout_variable_username %></span>
+                    </div>
+                </a>
+                <% end %>
+                <% if @administrator %>
+                    <%= link_to "/administrator_log_out", id: "-tp-header-heading-ctr-log-out", class: "btn btn-primary", title: "Logout", method: :delete do %> 
+                        <i class="fas fa-sign-out-alt"></i>
+                <% end %>
+                <% elsif yield(:role) == 'Partner' %>
+                    <%= link_to "/partner_log_out", id: "-tp-header-heading-ctr-log-out", class: "btn btn-primary", title: "Logout", method: :delete do %>
+                        <i class="fas fa-sign-out-alt"></i>
+                    <% end %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  field: one
+  start_time: 2024-10-18 14:42:34
+  end_time: 2024-10-18 14:42:34
+  booked: false
+
+two:
+  field: two
+  start_time: 2024-10-18 14:42:34
+  end_time: 2024-10-18 14:42:34
+  booked: false

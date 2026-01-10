@@ -1,0 +1,10 @@
+<h1>Recensioni per i tuoi Campi</h1>
+
+<% if @reviews.any? %>
+  <div class="reviews-list">
+    <%= render partial: 'reviews/review', collection: @reviews, as: :review %>
+  </div>
+<% else %>
+  <p>Nessuna recensione disponibile per i tuoi campi sportivi.</p>
+<% end %>
+

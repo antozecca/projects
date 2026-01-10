@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Campetto</title>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+</head>
+<body>
+  <!-- Contenuto principale -->
+  <div class="mainField">
+    <!-- Titolo sopra la colonna di sinistra -->
+    <h3 class="title-campi">
+      <% if params[:sport].blank? || params[:sport] == 'Tutti' %>
+        Tutti i campi
+      <% else %>
+        Campi per <%= params[:sport] %>
+      <% end %>
+    </h3>
+
+    <div class="fields-layout">
+      <!-- Colonna filtro ricerca -->
+      <div class="filter-column">
+        <div class="filter-box">
+          <h4>Aggiorna ricerca</h4>
+          <%= form_with(url: search_fields_path, method: :get, local: true, html: { id: 'search-form' }) do %>
+
+            <!-- Campo Indirizzo -->
+            <div class="d-flex align-items-center mb-3">
+             <%= text_field_tag :indirizzo, @selected_indirizzo, id: 'indirizzo', placeholder: 'Inserisci un indirizzo o una città', class: 'form-control', required: true %>
+              <%= hidden_field_tag :latitudine, nil, id: 'latitudine' %>
+              <%= hidden_field_tag :longitudine, nil, id: 'longitudine' %>
+
+              <%= button_tag type: 'button', id: 'get-location-btn', class: 'btn' do %>
+                <%= image_tag 'pinmap.png', alt: 'Pin', style: 'width: 25px; height: auto; margin-bottom:15px;' %>
+              <% end %>
+            </div>
+
+            <!-- Campo Sport -->
+            <div class="mb-3">
+              <%= select_tag :sport, options_for_select(
+                ["Tutti", "Calcio", "Calcetto", "Calcio a 7", "Calcio a 8", "Calcio-Tennis",
+                 "Basket", "Tennis", "Pallavolo", "Padel", "Rugby"], @selected_sport),
+                 class: 'form-select', aria: { label: 'Sport' } %>
+            </div>
+
+            <!-- Campo Data -->
+            <div class="mb-3">
+              <%= date_field_tag :data, @selected_date, class: 'form-control', aria: { label: 'Data' }, min: Date.today %>
+            </div>
+
+            <!-- Pulsante Cerca -->
+            <div class="mt-3">
+              <%= submit_tag 'Cerca', class: 'buttonCerca', id: 'cercacampiBtn' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Contenitore dei campi -->
+      <div class="fields-container">
+        <% @fields.each do |field| %>
+          <%= link_to(field_path(field, date: @selected_date), class: "field-card") do %>
+            <div class="field-image">
+              <%= image_tag field.image, class: "image" if field.image.attached? %>
+            </div>
+            <div class="field-info">
+              <h2><%= field.nome %></h2>
+              <p><strong>Prezzo:</strong> <span>€<%= field.prezzo %></span></p>
+              <p><strong>Indirizzo:</strong> <span><%= field.via %>, <%= field.cap %> <%= field.citta %></span></p>
+              <p><strong>Distanza:</strong> 
+                <span>
+                  <% if field.distance %>
+                    <%= field.distance.round(2) %> km
+                  <% else %>
+                    Distanza non disponibile
+                  <% end %>
+                </span>
+              </p>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="fine__container" id="terms">
+    <div class="fine__links">
+      <div class="fine__link--wrapper">
+        <div class="fine__link--items">
+          <h2>About Us</h2>
+          <a href="#nostraidea">La nostra idea</a>
+          <a href="#chisiamo">Chi siamo</a>
+          <a href="#terms">Terms of Service</a>
+        </div>
+        <div class="fine__link--items">
+          <h2>Follow us</h2>
+          <a href="https://www.facebook.com" target="_blank">Facebook <i class="fa fa-facebook"></i></a>
+          <a href="https://www.instagram.com" target="_blank">Instagram <i class="fa fa-instagram"></i></a>
+          <a href="https://www.twitter.com" target="_blank">Twitter <i class="fa fa-twitter"></i></a>
+          <a href="https://www.linkedin.com" target="_blank">LinkedIn <i class="fa fa-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+    <section class="social__media">
+      <div class="social__media--wrap">
+        <div class="fine__logo">
+          <a class="fine-brand me-auto" href="#">Campetto.it</a>
+        </div>
+        <p class="website__rights">© Campetto.it 2024. All rights reserved</p>
+      </div>
+    </section>
+  </div>
+
+ <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const getLocationBtn = document.getElementById('get-location-btn');
+    const addressField = document.getElementById('indirizzo');
+    const searchForm = document.getElementById('search-form');
+    
+    var params = new URLSearchParams(window.location.search);
+    if (params.has('clear') && params.get('clear') === 'true') {
+      if (searchForm) {
+        searchForm.reset();
+      }
+    }
+
+    getLocationBtn.addEventListener('click', function() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          document.getElementById('latitudine').value = lat;
+          document.getElementById('longitudine').value = lon;
+
+          // Usa il reverse geocoding per ottenere un indirizzo leggibile
+          fetch(`/reverse_geocode?lat=${lat}&lon=${lon}`)
+            .then(response => response.json())
+            .then(data => {
+              if (data.address) {
+                addressField.value = data.address;
+              } else {
+                addressField.value = "Posizione rilevata";
+              }
+            });
+        }, function(error) {
+          alert('Impossibile ottenere la posizione. Per favore, controlla le impostazioni del tuo browser.');
+        });
+      } else {
+        alert('Geolocalizzazione non supportata dal tuo browser.');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

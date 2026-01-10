@@ -1,0 +1,50 @@
+/* edit_profile.css */
+
+/* Sfondo della pagina */
+body {
+  background-color: #f8f9fa;
+}
+
+/* Contenitore del modulo */
+.form-container {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px; /* Larghezza massima del contenitore */
+  margin: 0 auto; /* Centra il contenitore */
+}
+
+/* Titolo */
+.form-container h2 {
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Etichette dei campi */
+.form-container label {
+  font-weight: bold;
+}
+
+/* Pulsante di submit */
+.form-container .btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+/* Pulsante di submit al passaggio del mouse */
+.form-container .btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}
+
+/* Margini per i campi del modulo */
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* Stile per i messaggi di errore */
+.alert-danger {
+  margin-bottom: 20px;
+}
+

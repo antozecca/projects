@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>Campetto</title>
+  </head>
+  <body>
+  <section class= "booking-pagina">
+    <div class="bookings-filter">
+    <h1>Le tue prenotazioni</h1>
+      <button id="future-bookings-button" onclick="showFutureBookings()">Future</button>
+      <button id="past-bookings-button" onclick="showPastBookings()">Passate</button>
+    </div>
+
+    <div class="bookings-container">
+      <% if @bookings.empty? %>
+        <p>Non hai prenotazioni.</p>
+      <% else %>
+        <div id="future-bookings" class="bookings-section">
+          <% @bookings.select { |b| b.slot.start_time > Time.current }.each do |booking| %>
+            <div class="booking-card">
+              <div class="booking-image">
+                <%= image_tag booking.slot.field.image, class: "image" if booking.slot.field.image.attached? %>
+              </div>
+              <div class="booking-info">
+                <h2><%= booking.slot.field.nome %></h2>
+                <p><strong>Data:</strong> <span><%= booking.slot.start_time.strftime('%d/%m/%Y %H:%M') %></span></p>
+                <p><strong>Prezzo:</strong> <span>€<%= booking.slot.field.prezzo %></span></p>
+                <p>
+                  <% if booking.slot.start_time > 24.hours.from_now %>
+                    <%= link_to 'Annulla', booking_path(booking), method: :delete, data: { confirm: 'Sei sicuro di voler annullare questa prenotazione?' }, class: "action-button" %>
+                  <% else %>
+                    <span>Annullamento non disponibile</span>
+                  <% end %>
+                </p>
+                <p>
+                  <%= link_to 'Recensisci', field_reviews_path(booking.slot.field), class: "action-button green" %>
+                </p>
+                <p>
+                  <% if Report.exists?(reportable: booking, reporter: current_user) %>
+                    <span>Hai già inviato una segnalazione per questa prenotazione.</span>
+                  <% else %>
+                    <button onclick="toggleReportForm(<%= booking.id %>)">Segnala</button>
+                    <div id="report-form-<%= booking.id %>" class="booking-report-form">
+                      <%= form_with(model: Report.new, url: booking_reports_path(booking)) do |f| %>
+                        <%= f.hidden_field :reportable_type, value: 'Booking' %>
+                        <%= f.hidden_field :reportable_id, value: booking.id %>
+                        <%= f.hidden_field :reporter_type, value: 'User' %>
+                        <%= f.hidden_field :reporter_id, value: current_user.id %>
+                        <%= f.text_area :details, placeholder: 'Dettagli della segnalazione' %>
+                        <%= f.submit 'Invia Segnalazione' %>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+    
+        <div id="past-bookings" class="bookings-section" style="display: none;">
+          <% @bookings.select { |b| b.slot.start_time <= Time.current }.each do |booking| %>
+            <div class="booking-card">
+              <div class="booking-image">
+                <%= image_tag booking.slot.field.image, class: "image" if booking.slot.field.image.attached? %>
+              </div>
+              <div class="booking-info">
+                <h2><%= booking.slot.field.nome %></h2>
+                <p><strong>Data:</strong> <span><%= booking.slot.start_time.strftime('%d/%m/%Y %H:%M') %></span></p>
+                <p><strong>Prezzo:</strong> <span>€<%= booking.slot.field.prezzo %></span></p>
+                <p>
+                  <span>Annullamento non disponibile</span>
+                </p>
+                <p>
+                  <%= link_to 'Recensisci', field_reviews_path(booking.slot.field), class: "action-button green" %>
+                </p>
+                <p>
+                  <% if Report.exists?(reportable: booking, reporter: current_user) %>
+                    <span>Hai già inviato una segnalazione per questa prenotazione.</span>
+                  <% else %>
+                    <button onclick="toggleReportForm(<%= booking.id %>)">Segnala</button>
+                    <div id="report-form-<%= booking.id %>" class="booking-report-form">
+                      <%= form_with(model: Report.new, url: booking_reports_path(booking)) do |f| %>
+                        <%= f.hidden_field :reportable_type, value: 'Booking' %>
+                        <%= f.hidden_field :reportable_id, value: booking.id %>
+                        <%= f.hidden_field :reporter_type, value: 'User' %>
+                        <%= f.hidden_field :reporter_id, value: current_user.id %>
+                        <%= f.text_area :details, placeholder: 'Dettagli della segnalazione' %>
+                        <%= f.submit 'Invia Segnalazione' %>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+    <script>
+      function toggleReportForm(bookingId) {
+        const form = document.getElementById(`report-form-${bookingId}`);
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+      }
+
+      function showFutureBookings() {
+        document.getElementById('future-bookings').style.display = 'block';
+        document.getElementById('past-bookings').style.display = 'none';
+      }
+
+      function showPastBookings() {
+        document.getElementById('future-bookings').style.display = 'none';
+        document.getElementById('past-bookings').style.display = 'block';
+      }
+    </script>
+
+  </body>
+</html>

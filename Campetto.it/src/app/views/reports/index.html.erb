@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>Campetto</title>
+  </head>
+  <body>
+    <div class= "main-report">
+        <h1>Le tue segnalazioni</h1>
+        <div class="cardreport-container">
+            <% @reports.each do |report| %>
+            <div class="cardreport"">
+                <h2>ID: <%= report.id %></h2>
+                <p>Reporter: <%= report.reporter.email %></p>
+                <p>Type: <%= report.reportable_type %></p>
+                <p>Status: <%= report.status %></p>
+                <p>Details: <%= report.details %></p>
+            </div>
+            <% end %>
+        </div>
+    </div>
+  </body>
+</html>

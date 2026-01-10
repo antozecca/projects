@@ -1,0 +1,104 @@
+<!-- app/views/admin/users/_index.html.erb -->
+<div class="work-area-command mb-3">
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userModal" id="new-user-button">
+    <i class="fas fa-plus"></i> Aggiungi Utente
+  </button>
+</div>
+
+<div class="users-list mt-4">
+  <% if @users.any? %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Email</th>
+          <th>Data di Creazione</th>
+          <th>Azioni</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= user.id %></td>
+            <td><%= user.email %></td>
+            
+            <td><%= user.created_at.strftime("%d/%m/%Y") %></td>
+            <td>
+              <button class="btn btn-sm btn-warning edit-user-button" data-user-id="<%= user.id %>" data-bs-toggle="modal" data-bs-target="#userModal">
+                <i class="fas fa-edit"></i> Modifica
+              </button>
+              <%= button_to 'Elimina', admin_user_path(user), method: :delete, class: 'btn btn-sm btn-danger', data: { confirm: 'Sei sicuro di voler eliminare questo utente?' } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>Nessun utente disponibile.</p>
+  <% end %>
+</div>
+
+<!-- Modal per Creare/Modificare Utente -->
+<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="user-form" action="<%= admin_users_path %>" method="POST">
+        <%= csrf_meta_tags %>
+        <% if @user&.persisted? %>
+          <%= method_field :patch %>
+          <%= hidden_field_tag :id, @user.id %>
+        <% end %>
+        <div class="modal-header">
+          <h5 class="modal-title" id="userModalLabel"><%= @user&.persisted? ? 'Modifica Utente' : 'Aggiungi Utente' %></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="user_email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="user_email" name="user[email]" value="<%= @user&.email %>" required>
+          </div>
+          <div class="mb-3">
+            <label for="user_password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="user_password" name="user[password]" <%= @user&.persisted? ? '' : 'required' %>>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+          <button type="submit" class="btn btn-primary"><%= @user&.persisted? ? 'Aggiorna' : 'Crea' %> Utente</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Script per Gestire la Modifica degli Utenti -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const userModal = document.getElementById('userModal');
+    userModal.addEventListener('show.bs.modal', function (event) {
+      const button = event.relatedTarget;
+      const userId = button.getAttribute('data-user-id');
+
+      if (userId) {
+        // Se c'è un ID utente, carica i dati per la modifica
+        fetch(`/admin/users/${userId}/edit`, {
+          headers: {
+            'Accept': 'application/javascript'
+          }
+        })
+        .then(response => response.text())
+        .then(data => {
+          eval(data);
+        })
+        .catch(error => console.error('Errore:', error));
+      } else {
+        // Se non c'è un ID utente, prepara il form per la creazione
+        const form = document.getElementById('user-form');
+        form.reset();
+        form.action = '<%= admin_users_path %>';
+        document.querySelector('.modal-title').innerText = 'Aggiungi Utente';
+        document.getElementById('user_password').required = true;
+      }
+    });
+  });
+</script>
+

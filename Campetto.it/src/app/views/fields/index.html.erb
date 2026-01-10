@@ -1,0 +1,28 @@
+<%= stylesheet_link_tag 'field_index', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+
+<div class="container-campi">
+  <h1>Lista dei Campi Sportivi</h1>
+  
+  <%= link_to 'Aggiungi un Nuovo Campo', new_field_path, class: 'btn btn-primary add-field-btn' %>
+
+  <div class="fields-wrapper">
+    <% @fields.each do |field| %>
+      <div class="field-card">
+        <div class="field-image">
+          <%= image_tag field.image, class: "image" if field.image.attached? %>
+        </div>
+        <div class="field-info">
+          <h2><%= field.nome %></h2>
+          <p><strong>Sport:</strong> <%= field.sport %></p>
+          <p><strong>Prezzo:</strong> €<%= field.prezzo %></p>
+        </div>
+        <div class="field-actions">
+          <%= link_to 'Modifica', edit_field_path(field), class: 'btn btn-secondary' %>
+          <%= link_to 'Elimina', field, method: :delete, data: { confirm: 'Sei sicuro?' }, class: 'btn btn-danger' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+

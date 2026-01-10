@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Campetto</title>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= stylesheet_link_tag 'users', media: 'all' %> <!-- Assicuriamoci di usare un file SCSS personalizzato -->
+  </head>
+  <body>
+    <!-- NavBar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+      <div class="container-fluid">
+        <%= link_to "Campetto.it", root_path, class: "navbar-brand" %>
+
+        <!-- Button Logout -->
+        <div class="d-lg-none d-flex align-items-center">
+            <%= button_to 'Logout', logout_path, method: :delete, class: 'buttonlogin me-2' %>
+        </div>
+
+        <!-- Toggle Button per Offcanvas Menu -->
+        <button class="navbar-toggler ps-2 pe-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Campetto.it</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
+              <li class="nav-item">
+                <a class="nav-link mx-lg-2 active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link mx-lg-2" href="#">Contatti</a>
+              </li>
+              <% unless current_user %>
+              <li class="nav-item">
+                <a class="nav-link mx-lg-2" href="#">Gestisci un Campo?</a>
+              </li>
+              <% end %>
+            </ul>
+
+              <button class="button w-100 d-lg-none mt-3" id="accountBtn" onclick="window.location='<%= root_path %>'">Prenota</button>
+          </div>
+        </div>
+ 
+        <!-- Pulsanti account e logout accanto -->
+        <div class="navbar-buttons d-flex align-items-center">
+            <%= button_to 'Logout', logout_path, method: :delete, class: 'buttonlogin me-2 d-none d-lg-block' %>
+            <button class="button d-none d-lg-block" id="accountBtn" onclick="window.location='<%= root_path %>'">Prenota</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Sezione principale del profilo utente -->
+    <section class="mainAccount">
+      <div class="container">
+        <div class="user-info">
+          <% if @user %>
+            <h1>Ciao <%= @user.email %>!</h1>
+            <p>Benvenuto nella tua dashboard.</p>
+            <p><strong>Email:</strong> <%= @user.email %></p>
+            <p><strong>Nome:</strong> <%= @user.nome %></p>
+            <p><strong>Cognome:</strong> <%= @user.cognome %></p>
+            <!-- Aggiungi altre informazioni personali -->
+          <% else %>
+            <p>Non riesco a trovare l'utente. Potresti non essere loggato.</p>
+          <% end %>
+        </div>
+
+        <div class="user-menu">
+          <ul>
+            <li><a href="<%= bookings_path %>">Prenotazioni</a></li>
+            <li><a href="<%= user_reviews_path %>">Recensioni</a></li>
+            <li><a href="<%= reports_user_path(current_user) %>">Segnalazioni</a></li>
+            <li><%= link_to 'Edita Profilo', edit_user_path(@user) %></li>
+            <li><%= link_to 'Elimina Profilo', user_path(@user), method: :delete, data: { confirm: 'Sei sicuro di voler eliminare il tuo profilo?' }, class: 'delete-profile-link' %>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div id="blur-background" class="blur-background"></div>
+      <div id="form__changepassword" class="form__password">
+        <!-- Codice per cambiare password rimane lo stesso  %>-->
+        <div class="form__box login">
+          <span class="close-btn">&times;</span>
+          <div class="form__content">
+            <h2>Cambia password</h2>
+                    <%= form_with url: modify_password_path, method: :post, remote: true, id: "changePasswordForm",onsubmit: "return validatePassw()" do |f| %>
+                          <div class="input__field">
+                            <%= f.password_field :password_login, id: "password_login", required: true, class: "form-control" %>
+                            <label for="password_login">Password Corrente</label>
+                            <i id="occhioLogin" class="fa-solid fa-eye mostra__pass" onclick="mostraPasswordLogin()"></i>
+                          </div>
+
+                          <div class="input__field">
+                            <%= f.password_field :password, id: "signup_password", onkeyup: "checkPassword()", required: true, class: "form-control" %>
+                            <label for="signup_password">Nuova password</label>
+                            <i id="occhioReg" class="fa-solid fa-eye mostra__pass" onclick="mostraPassword()"></i>
+
+                            <!-- Lista dei requisiti della password -->
+                            <div class="pass__checklist">
+                                <h4 class="titolo_check">La password deve:</h4>
+                                <ul class="checklist">
+                                    <li id="lunghezza" class="condizione">Essere lunga almeno 8 caratteri.</li>
+                                    <li id="maiuscole" class="condizione">Avere almeno una maiuscola.</li>
+                                    <li id="numeri" class="condizione">Avere almeno un numero.</li>
+                                    <li id="speciale" class="condizione">Avere almeno un carattere speciale.</li>
+                                </ul>
+                            </div>
+                          </div>
+
+                          <div class="input__field">
+                            <%= f.password_field :conferma_password, id: "conferma_password", required: true, class: "form-control" %>
+                            <label for="conferma_password">Conferma nuova password</label>
+                            <i id="occhioConf" class="fa-solid fa-eye mostra__pass" onclick="mostraPasswordConf()"></i>
+                          </div>
+                          <% if flash[:notice] %>
+                              <div class="alert alert-success">
+                                  <%= flash[:notice] %>
+                              </div>
+                          <% end %>
+                          <% if flash[:alert] %>
+                              <div class="alert alert-danger alert-small">
+                                  <%= flash[:alert] %>
+                              </div>
+                          <% end %>
+                          <div>
+                            <%= f.submit "Cambia Password",class:'buttonCerca' %>
+                          </div>
+                    <% end %>                   
+                    <div id="error_msg_reset" style="color: red;"></div>
+                </div>                 
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
+

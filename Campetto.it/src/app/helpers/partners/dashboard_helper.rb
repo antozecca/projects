@@ -1,0 +1,2 @@
+module Partners::DashboardHelper
+end

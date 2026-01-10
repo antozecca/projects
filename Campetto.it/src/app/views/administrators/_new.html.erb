@@ -1,0 +1,21 @@
+<%= form_for(@administrator, remote: true, html: { id: "administrator-manager-new-form" }) do |f|%>
+    <%= f.label :name, "Nome:*"%>
+    <%= f.text_field :name, class: "form-control" %>
+
+    <%= f.label :surname, "Surname:*" %>
+    <%= f.text_field :surname, required: true, class: "form-control" %>
+
+    <%= f.label :email, "Email:*" %>
+    <%= f.email_field :email, required: true, class: "form-control" %>
+    
+    <%= f.label :password, "Password:*" %>
+    <%= f.password_field :password, class: "form-control" %>
+    
+    <%= f.label :password_confirmation, "Conferma password:*"%>
+    <%= f.password_field :password_confirmation, class: "form-control" %>
+    
+    <%= f.label :root, "Super amministratore:" %>
+    <%= f.check_box :root %>
+
+    <%= f.submit "Create new administrator", class: "buttonCerca" %>
+<% end %>

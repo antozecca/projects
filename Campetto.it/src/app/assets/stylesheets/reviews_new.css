@@ -1,0 +1,60 @@
+.review-form-wrapper {
+  background-color: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  margin: 50px auto;
+}
+
+.review-form-wrapper .title {
+  text-align: center;
+  color: #009970;
+  margin-bottom: 20px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.btn-primary {
+  background-color: #009970;
+  color: white;
+  padding: 10px 30px;
+  font-size: 16px;
+  border: none;
+  border-radius: 15px;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #00b383;
+}
+
+.btn-secondary {
+  background-color: #666;
+  color: white;
+  padding: 10px 30px;
+  font-size: 16px;
+  border: none;
+  border-radius: 15px;
+  transition: 0.3s;
+  text-align: center;
+}
+
+.btn-secondary:hover {
+  background-color: #555;
+}
+
+.error-messages {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+}
+

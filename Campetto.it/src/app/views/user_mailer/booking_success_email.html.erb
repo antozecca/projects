@@ -1,0 +1,4 @@
+<h1>La tua prenotazione è avvenuta con successo!</h1>
+<p>Ciao <%= @user.email %>,</p>
+<p>Hai prenotato il campo <strong><%= @field.nome %></strong> dal <strong><%= @slot.start_time.strftime('%d/%m/%Y %H:%M') %></strong> al <strong><%= @slot.end_time.strftime('%H:%M') %></strong>.</p>
+<p>Grazie per aver prenotato con noi!</p>

@@ -1,0 +1,75 @@
+<%= stylesheet_link_tag 'reviews_index', media: 'all' %>
+
+<div class="reviews-page-container">
+  <!-- Intestazione della pagina -->
+  <div class="reviews-header">
+    <h1 class="field-name"><%= @field.nome %></h1>
+   <p class="field-location">
+  <%= [@field.via, @field.cap, @field.citta, "Italia"].reject(&:blank?).join(", ") %>
+</p>
+    <div class="field-rating">
+      <% average_rating = @field.reviews.average(:valutazione)&.round(1) || 0 %>
+      <span class="average-rating"><%= average_rating %>/5</span>
+      <% 5.times do |i| %>
+        <% if i < average_rating.floor %>
+          <i class="fas fa-star" style="color: gold;"></i>
+        <% elsif i < average_rating %>
+          <i class="fas fa-star-half-alt" style="color: gold;"></i>
+        <% else %>
+          <i class="far fa-star"></i>
+        <% end %>
+      <% end %>
+      <span class="reviews-count">(<%= @field.reviews.count %> recensioni)</span>
+    </div>
+    <% if current_user %>
+      <%= link_to 'Scrivi una Recensione', new_field_review_path(@field), class: 'btn btn-primary write-review-btn' %>
+    <% else %>
+      <p class="login-prompt">Devi essere loggato per aggiungere una recensione.</p>
+    <% end %>
+  </div>
+
+  <!-- Lista delle recensioni -->
+  <div class="reviews-list">
+    <% if @reviews.any? %>
+      <% @reviews.each do |review| %>
+        <div class="review-card">
+          <div class="review-user-info">
+            <!-- Avatar dell'utente (puoi sostituire con l'avatar reale se disponibile) -->
+            <div class="user-avatar">
+              <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="user-details">
+              <h4 class="user-name"><%= review.user.email.split('@').first %></h4>
+              <p class="review-date"><%= review.created_at.strftime('%d %B %Y') %></p>
+            </div>
+          </div>
+          <div class="review-content">
+            <div class="review-rating">
+              <% review.valutazione.times do %>
+                <i class="fas fa-star" style="color: gold;"></i>
+              <% end %>
+              <% (5 - review.valutazione).times do %>
+                <i class="far fa-star"></i>
+              <% end %>
+            </div>
+            <h3 class="review-title"><%= review.titolo %></h3>
+            <p class="review-text"><%= review.testo %></p>
+          </div>
+          <% if current_user && current_user.id == review.user_id %>
+  <div class="review-actions">
+   <%= link_to 'Elimina', review_path(review), method: :delete, data: { confirm: 'Sei sicuro di voler eliminare questa recensione?' }, class: 'btn btn-danger delete-review-btn' %>
+            </div>
+<% end %>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="no-reviews-message">Non ci sono ancora recensioni. Sii il primo a scriverne una!</p>
+    <% end %>
+  </div>
+
+  <!-- Link per tornare al campo -->
+  <div class="back-to-field">
+    <%= link_to 'Torna al Campo', field_path(@field), class: 'btn btn-secondary back-to-field-btn' %>
+  </div>
+</div>
+

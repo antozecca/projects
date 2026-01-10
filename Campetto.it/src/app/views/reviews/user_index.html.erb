@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Le tue recensioni - Campetto</title>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= stylesheet_link_tag 'reviews_user', media: 'all' %>
+</head>
+<body>
+  <div class="reviews-wrapper">
+  <button onclick="history.back()" class="btn-back">Torna Indietro</button>
+    <h1 class="title">Le tue recensioni</h1>
+
+    <div class="reviews-container">
+      <% if @reviews.any? %>
+        <% @reviews.each do |review| %>
+          <div class="review-card">
+            <% if review.field.image.attached? %>
+              <div class="review-image">
+                <%= image_tag review.field.image, class: 'field-image', alt: "Immagine del campo #{review.field.nome}" %>
+              </div>
+            <% end %>
+            <div class="review-content">
+              <div class="review-header">
+                <h2><%= review.titolo %> - <%= review.field.nome %></h2>
+                <p>
+                  <strong>
+                    <% review.valutazione.times { %><i class="fas fa-star" style="color: gold;"></i><% } %>
+                    <% (5 - review.valutazione).times { %><i class="far fa-star"></i><% } %>
+                  </strong>
+                </p>
+              </div>
+              <div class="review-body">
+                <p><%= review.testo %></p>
+              </div>
+              <div class="review-footer">
+                <small>Recensito il <%= review.created_at.strftime("%d/%m/%Y") %></small>
+              </div>
+            </div>
+            <% if current_user && current_user.id == review.user_id %>
+  <div class="review-actions">
+  <%= link_to 'Elimina', review_path(review), method: :delete, data: { confirm: 'Sei sicuro di voler eliminare questa recensione?' }, class: 'btn btn-danger' %>
+  </div>
+<% end %>
+          </div>
+        <% end %>
+      <% else %>
+        <p>Nessuna recensione disponibile.</p>
+      <% end %>
+    </div>
+  </div>
+  
+
+
+</body>
+</html>
+

@@ -1,0 +1,395 @@
+<%= provide(:title, "Dashboard amministrativa") %>
+<%= provide(:role, "Administrator") %>
+<script>
+//Function for doing Ajax request
+function requester(requestUrl, requestType, requestDataType, requestData={}, requestHeaders={}, onSuccess, onFailure){
+    $.ajax({
+        url: requestUrl,
+        type: requestType,
+        dataType: requestDataType,
+        data: requestData,
+        headers: requestHeaders,
+        success: function(response){
+            onSuccess(response);
+        },
+        error: function(xhr, status, error){
+            onFailure(xhr.status);
+        }
+    });
+}
+</script>
+
+
+<div id="command-bar">
+    <button class="btn btn-primary dashboard-control" data-target="#sportcenter-manager" title="Gestione Centri Sportivi"><i class="fas fa-cogs"></i></button>
+    <button class="btn btn-primary dashboard-control" data-target="#playground-manager" title="Gestione Campi"><i class="fas fa-futbol"></i></button>
+    <button class="btn btn-primary dashboard-control" data-target="#booking-manager" title="Gestione Prenotazioni"><i class="fas fa-calendar-alt"></i></button>
+    <button class="btn btn-primary dashboard-control" data-target="#review-manager" title="Gestione Recensioni"><i class="fas fa-star"></i></button>
+    <button class="btn btn-primary dashboard-control" data-target="#report-manager" title="Gestione Segnalazioni"><i class="fas fa-file-alt"></i></button>
+    <button class="btn btn-primary dashboard-control" data-target="#user-manager" title="Gestione Utenti"><i class="fas fa-users"></i></button>
+    <button class="btn btn-primary dashboard-control" data-target="#partner-manager" title="Gestione Partner"><i class="fas fa-users"></i></button>
+    <% if @administrator.root? %>
+        <button class="btn btn-primary dashboard-control" data-target="#administrator-manager" title="Gestione Amministratori"><i class="fas fa-users"></i></button>
+    <% end %>
+</div>
+
+<script>
+/*Function to show pop-over on command-bar*/
+$(document).on('mouseenter', '.dashboard-control', showPopover);
+$(document).on('mouseleave', '.dashboard-control', hidePopover);
+function showPopover(){
+    $(this).popover({
+        placement: 'right',
+        html: true,
+        trigger:'show',
+    });
+    $(this).popover('show');
+    return;
+}
+function hidePopover(){
+    $(this).popover('dispose');
+    return;
+}
+
+$(document).on('click', '.dashboard-control', dashboardChangeTab);
+function dashboardChangeTab(){
+    $('.work-area').hide();
+    var targetId = $(this).attr('data-target');
+    $(targetId).show();
+    //onSuccessDefaultAction('TEST:{}');
+}
+$(document).on('click', '.dashboard-control', dashboardActioner);
+function dashboardActioner(){
+    var targetId = $(this).attr('data-target');
+    
+    //Load the target div
+    if(targetId == '#administrator-manager'){
+        $('#administrator-manager .work-area-show').empty();
+        requester('/administrator_index', 'GET', 'json', undefined, undefined, administrator_indexShow, onFailureDefaultAction);
+    }
+    if(targetId == '#partner-manager'){
+        $('#partner-manager .work-area-show').empty();
+        requester('/partner_index', 'GET', 'json', undefined, undefined, partner_indexShow, onFailureDefaultAction);
+    }
+
+}
+
+function onFailureDefaultAction(response){
+    if(response.message){
+        //$('#failure-modal').modal('show');
+        //$('#failure-modal .modal-body').html('<p>'+response.message+'</p>');
+        console.log(response);
+    }
+}
+
+function onSuccessDefaultAction(response){
+    if(response.message){
+        $('#success-modal').modal('show');
+        $('#success-modal .modal-body').html('<p>'+response.message+'</p>');
+    }
+}
+
+function cardRemove(cardIdentifier){
+    $(cardIdentifier).remove();
+}
+
+function loadPartialIntoElement(toLoad, whereLoad){
+    $(whereLoad).html(toLoad);
+}
+
+</script>
+<!--Sezione sportcenter-->
+<div style="" id="sportcenter-manager" class="work-area">
+    <h2 class="work-area-heading">
+        <i class="fas fa-cogs"></i> Gestione centri sportivi
+    </h2>
+    
+</div>
+<!-- Fine sezione sportcenter -->
+
+<div style="display: none" id="playground-manager" class="work-area">
+    <h2 class="work-area-heading">
+        <i class="fas fa-cogs"></i> Gestione campi sportivi
+    </h2>
+    
+    <div class="fields-wrapper-admin">
+        <% @fields.each do |field| %>
+            <div class="field-card">
+                <div class="field-info">
+                <%= link_to field_path(field) do %>
+                    <h2><%= field.nome %></h2>
+                <% end %>
+                <p>Creato il: <%= field.created_at.strftime("%d/%m/%Y") %></p>
+                <p>Creato da: <%= field.sports_center_id %></p>
+                </div>
+                <div class="field-actions">
+                <%= link_to 'Modifica', edit_field_path(field), class: 'btn btn-secondary' %>
+                <%= link_to 'Elimina', field, method: :delete, data: { confirm: 'Sei sicuro?' }, class: 'btn btn-danger' %>
+                </div>
+            </div>
+        <% end %>
+    </div>
+</div>
+
+<div style="display: none" id="booking-manager" class="work-area">
+    <h2 class="work-area-heading">
+        <i class="fas fa-calendar-alt"></i> Gestione Prenotazioni
+    </h2>
+    <div class="fields-wrapper-admin">
+    <% @bookings.each do |booking| %>
+        <div class="booking-card">
+            <div class="booking-info">
+            <h2><%= booking.slot.field.nome %></h2>
+                <p><strong>Data:</strong> <span><%= booking.slot.start_time.strftime('%d/%m/%Y %H:%M') %></span></p>
+                <p><strong>Prezzo:</strong> <span>€<%= booking.slot.field.prezzo %></span></p>
+                <p><strong>Cliente</strong> <span><%= booking.user_id %></span></p>
+            </div>
+        </div>
+    <% end %>
+    </div>
+</div>
+
+
+<div style="display:none" id="review-manager" class="work-area">
+  <h2 class="work-area-heading">
+    <i class="fas fa-cogs"></i> Gestione recensioni
+  </h2>
+  <div class="reviews-list">
+    <% if @reviews.any? %>
+      <% @reviews.each do |review| %>
+        <div class="review-entry">
+          <p>Recensione di: <%= review.user.email %></p>
+          <p>Testo: <%= review.testo %></p>
+          <p>Data: <%= review.created_at.strftime("%d/%m/%Y") %></p>
+          <%= button_to 'Elimina', review_path(review), method: :delete, class: 'btn btn-danger', data: { confirm: 'Sei sicuro di voler eliminare questa recensione?' } %>
+        </div>
+      <% end %>
+    <% else %>
+      <p>Nessuna recensione disponibile.</p>
+    <% end %>
+  </div>
+</div>
+
+
+<div style="display: none" id="report-manager" class="work-area">
+    <h2 class="work-area-heading">
+        <i class="fas fa-cogs"></i> Gestione segnalazioni
+    </h2>
+
+    <div class="cardreport-container">
+        <% @reports.select { |report| report.status == 'pending' }.each do |report| %>
+            <div class="cardreport">
+                <h3>ID: <%= report.id %></h3>
+                <p>Reporter: <%= report.reporter.class.name %>: <%= report.reporter.id %></p>
+                <p>Email: <%= report.reporter.email %></p>
+                <p>Type: <%= report.reportable_type %> | Status: <%= report.status %></p>
+                <p>Details: <%= report.details %></p>
+                <div class="actions">
+                    <%= button_to 'Accetta', accept_report_path(report), method: :patch, class: 'btn btn-success' %>
+                    <%= button_to 'Rifiuta', reject_report_path(report), method: :patch, class: 'btn btn-danger' %>
+                </div>
+            </div>
+        <% end %>
+    </div>
+</div>
+
+
+<div style="display: none" id="user-manager" class="work-area">
+    <h2 class="work-area-heading">
+        <i class="fas fa-cogs"></i> Gestione utenti
+    </h2>
+    
+    <%= render 'admin/users/index' %>
+</div>
+
+<div style="display: none" id="partner-manager" class="work-area">
+    <h2 class="work-area-heading">
+        <i class="fas fa-cogs"></i> Gestione partner
+    </h2>
+    <div class= "work-area-command" ></div>
+    <div class= "work-area-show" >
+        <script>
+                function partner_indexShow(response){
+                    $('#partner-manager .work-area-show').empty();
+                    if (response.length > 0) {
+                        response.forEach(partner => {
+                            toInsert = `
+                                <div class="partner-card">
+                                    <p><strong>ID:</strong> ${partner.id}</p>
+                                    <p><strong>Email:</strong> ${partner.email}</p>
+                                    <p><strong>Nome:</strong> ${partner.name}</p>
+                                    <p><strong>Cognome:</strong> ${partner.surname}</p>
+                                    <p><strong>Genere:</strong> ${partner.gender}</p>
+                                    <p><strong>Data di nascita:</strong>${new Date(partner.birthdate).toLocaleString()}</p>
+                                    <p><strong>Creato il:</strong> ${new Date(partner.created_at).toLocaleString()}</p>
+                                    <p><strong>Ultimo aggiornamento:</strong> ${new Date(partner.updated_at).toLocaleString()}</p>
+                                    <button class="btn btn-danger delete-partner" data-id="${partner.id}">Cancella partner</button>
+                                    <hr />
+                                </div>
+                            `;
+                            $('#partner-manager .work-area-show').append(toInsert);
+                        });
+                    } else {
+                        $('#partner-manager .work-area-show').html('<p>Nessun partner trovato.</p>');
+                    }
+                }
+                
+                $(document).on('click', '.delete-partner', partner_destroy);
+                function partner_destroy(id){
+                    const partnerId = $(this).data('id');
+                    const csrfToken = $('meta[name="csrf-token"]').attr('content'); // Recupera il token CSRF
+                    if(confirm("Sei sicuro di voler eliminare questo amministratore?")){
+                        requester('/partner', 'DELETE', 'json', {id: partnerId}, {'X-CSRF-Token': csrfToken }, 
+                        function(response){
+                                cardRemove('.partner-card:has(button[data-id='+partnerId+'])');
+                                onSuccessDefaultAction(response);
+                            },
+                            onFailureDefaultAction
+                        );
+                    }
+                }
+        </script>  
+    </div>
+</div>
+
+
+<% if @administrator.root? %>
+    <div style="display: none" id="administrator-manager" class="work-area">
+        <h2 class="work-area-heading">
+            <i class="fas fa-cogs"></i> Gestione amministratori
+        </h2>
+        <div class="work-area-command">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#administrator-manager-new">+</button>
+        </div>
+        <hr>
+        <div class = "work-area-show">
+            <!-- Mostra gli amministratori -->
+            <script>
+                function administrator_indexShow(response){
+                    $('#administrator-manager .work-area-show').empty();
+                    if (response.length > 0) {
+                        response.forEach(administrator => {
+                            toInsert = `
+                                <div class="administrator-card">
+                                    <p><strong>ID:</strong> ${administrator.id}</p>
+                                    <p><strong>Email:</strong> ${administrator.email}</p>
+                                    <p><strong>Nome:</strong> ${administrator.name}</p>
+                                    <p><strong>Cognome:</strong> ${administrator.surname}</p>
+                                    <p><strong>Creato il:</strong> ${new Date(administrator.created_at).toLocaleString()}</p>
+                                    <p><strong>Ultimo aggiornamento:</strong> ${new Date(administrator.updated_at).toLocaleString()}</p>
+                                    <p><strong>Root:</strong> ${administrator.root ? 'Sì' : 'No'}</p>
+                                    <button class="btn btn-danger delete-admin" data-id="${administrator.id}">Cancella amministratore</button>
+                                    <hr />
+                                </div>
+                            `;
+                            $('#administrator-manager .work-area-show').append(toInsert);
+                        });
+                    } else {
+                        $('#administrator-manager .work-area-show').html('<p>Nessun amministratore trovato.</p>');
+                    }
+                }
+                
+                $(document).on('click', '.delete-admin', administrator_destroy);
+                function administrator_destroy(id){
+                    const adminId = $(this).data('id');
+                    const csrfToken = $('meta[name="csrf-token"]').attr('content'); // Recupera il token CSRF
+                    if(confirm("Sei sicuro di voler eliminare questo amministratore?")){
+                        requester('/administrator_destroy', 'DELETE', 'json', {id: adminId}, {'X-CSRF-Token': csrfToken }, 
+                        function(response){
+                                cardRemove('.administrator-card:has(button[data-id='+adminId+'])');
+                                onSuccessDefaultAction(response);
+                            },
+                            onFailureDefaultAction
+                        );
+                    }
+                }
+
+                $('#administrator-manager-new').on('click', administrator_ShowNew);
+                function administrator_ShowNew(){
+                    console.log("Ciao");
+                }
+
+            </script>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="administrator-manager-new" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Creazione nuovo amministratore</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <script>
+                        function administrator_newShow(response){
+                            loadPartialIntoElement(response, '#administrator-manager-new .modal-body');
+                        }
+                        
+                        $('#administrator-manager-new').on('shown.bs.modal', function(){
+                            response = requester('administrator_sign_up', 'GET', 'html', {}, {}, administrator_newShow, onFailureDefaultAction);
+                        });
+
+                        $('#administrator-manager-new-form').on('submit', function(event){
+                            event.preventDefault();
+                            const formData = $(this).serialize();
+                            console.log('Ci Arrivo1');
+                            $.ajax({
+                                url: $(this).attr('action'),
+                                method: 'POST',
+                                data: formData,
+                                dataType: 'json',
+                                success: onSuccessDefaultAction,
+                                error: onFailureDefaultAction,
+                                complete: function(){
+                                    console.log('Ci Arrivo');
+                                    $('#administrator-manager-new').modal('hide');
+                                }
+                            });
+                        });
+
+                    </script>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<% end %>
+
+
+<div class="modal fade" id="success-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Successo!</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="failure-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Errore!</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

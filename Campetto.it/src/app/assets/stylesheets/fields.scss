@@ -1,0 +1,205 @@
+/* fields.scss: Stili aggiornati e consolidati per la pagina di ricerca dei campi */
+
+/* Importa il font Roboto */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* Stile generale */
+.mainField {
+  padding-top: 80px;
+  min-height: 700px;
+  padding-left: 0;
+
+}
+
+/* Titolo della pagina */
+.title-campi {
+  margin-left: 26%;
+  padding: 20px;
+  font-size: 2rem;
+  color: #333; 
+}
+
+/* Layout delle sezioni */
+.fields-layout {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Colonna dei filtri */
+.filter-column {
+  width: 25%;
+  padding: 30px;
+  border-right: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  background-color: #f9f9f9;
+  position: fixed;
+  top: 150px;
+  left: 0;
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+  margin-left: 10px;
+}
+
+/* Contenitore dei campi */
+.fields-container {
+  width: 75%;
+  margin-left: 26%; /* Compensa la larghezza della colonna fissa */
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); /* Utilizza una griglia fluida */
+  gap: 20px;
+  justify-items: center;
+}
+
+/* Riquadro singolo del campo */
+.field-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* Imposta larghezza al 100% per seguire la griglia */
+  max-width: 260px; /* Imposta una larghezza massima */
+  border: 1px solid #ddd;
+  border-radius: 15px; /* Arrotondamento maggiore */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Ombra coerente */
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s; /* Transizione più fluida */
+  background-color: #fff;
+}
+
+.field-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Immagine del campo */
+.field-image img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+/* Informazioni del campo */
+.field-info {
+  padding: 15px; /* Padding aumentato per più respiro */
+  text-align: left; /* Allinea il testo a sinistra */
+}
+
+/* Titolo del campo */
+.field-info h2 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  color: #007bff; /* Colore distintivo per il nome del campo */
+  font-weight: 600;
+}
+
+/* Paragrafi delle informazioni */
+.field-info p {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px; /* Aumenta la spaziatura tra le righe */
+  font-size: 1rem;
+  color: #555; /* Colore del testo più scuro per leggibilità */
+}
+
+/* Stilizzazione delle etichette */
+.field-info p strong {
+  width: 100px; /* Larghezza fissa per le etichette */
+  display: inline-block;
+  font-weight: 600; /* Grassetto */
+  color: #333; /* Colore delle etichette */
+}
+
+/* Stilizzazione dei valori */
+.field-info p span {
+  flex: 1;
+}
+
+/* Pulsante di ricerca */
+.buttonCerca {
+  width: 100%;
+  padding: 12px;
+  background-color: #009870; /* Colore del pulsante */
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 20px; /* Arrotondamento maggiore */
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  font-family: 'Roboto', sans-serif; /* Font coerente */
+  font-weight: bold; /* Testo più evidente */
+}
+
+.buttonCerca:hover {
+  background-color: #007f5e; /* Colore al passaggio del mouse */
+  transform: scale(1.05); /* Effetto di ingrandimento */
+}
+
+/* Responsive Design */
+
+/* Per schermi medi */
+@media screen and (max-width: 1050px) {
+  .filter-column {
+    width: 30%;
+  }
+
+  .fields-container {
+    width: 70%;
+    margin-left: 30%;
+  }
+
+  .title-campi {
+    margin-left: 30%;
+    padding: 20px;
+    font-size: 2rem;
+    text-align: center;
+  }
+}
+
+/* Per schermi piccoli */
+@media screen and (max-width: 850px) {
+  .mainField {
+    padding-top: 50px;
+  }
+
+  .fields-layout {
+    display: block;
+  }
+
+  .filter-column {
+    width: 85%;
+    position: relative;
+    top: 0;
+    left: 0;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+    max-height: none;
+    margin-bottom: 20px;
+    margin: 0 auto;
+  }
+
+  .fields-container {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .title-campi {
+    margin-left: 0;
+    text-align: center;
+  }
+}
+
+/* Aggiunta di stili per migliorare l'aspetto delle informazioni */
+.field-info p {
+  display: flex;
+  align-items: center;
+}
+
+.field-info p strong {
+  width: 100px; /* Larghezza fissa per le etichette */
+  display: inline-block;
+}
+
+.field-info p span {
+  flex: 1;
+}
+

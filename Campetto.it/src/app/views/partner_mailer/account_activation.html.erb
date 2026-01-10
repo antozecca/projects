@@ -1,0 +1,9 @@
+<h1>Campetto.it</h1>
+
+<p>Ciao <%= @partner.username %></p>
+
+<p>
+  Benvenuto in Campetto.it! Clicca sul link sotto per attivare il tuo account:
+</p>
+
+<%= link_to "Attivazione account partner", edit_partner_activation_url(@partner.activation_token, email: @partner.email)%>

@@ -1,0 +1,340 @@
+<%= provide(:title, "Dashboard partner") %>
+<%= provide(:role, "Partner") %>
+
+<!-- Renderizza solo se il numero di SportsCenter del partner è maggiore di 0 -->
+
+<!-- Sezione bottoni -->
+<div id="command-bar">
+    <!-- Il primo e secondo bottone vanno renderizzati solo se si è i proprietari dello sports center -->
+    <button class="btn btn-primary dashboard-control" data-target="#sportscenter-manager" title="Gestione centro sportivo"><i class="fas fa-cogs"></i></button>
+    <button class="btn btn-primary dashboard-control" data-target="#delegate-manager" title="Gestione delegati"><i class="fas fa-users"></i></button>
+
+    <button class="btn btn-primary dashboard-control" data-target="#playground-manager" title="Gestione campi sportivi"><i class="fas fa-futbol"></i></button>
+    <button class="btn btn-primary dashboard-control" data-target="#booking-manager" title="Gestione prenotazioni"><i class="fas fa-calendar-alt"></i></button>
+    <button class="btn btn-primary dashboard-control" data-target="#review-manager" onclick="loadPartnerReviews(<%= @partner.id %>)" title="Gestione recensioni"><i class="fas fa-star"></i></button>
+</div>
+
+<!-- Sezione schede -->
+<!-- Le prime due schede vanno renderizzate solo se si è i proprietari dello sports center -->
+<div style="display: none;" id="sportscenter-manager" class="work-area">
+    <h2 class="work-area-heading"><i class="fas fa-cogs"></i> Gestione centro sportivo</h2>
+    <div class="work-area-command">
+        <!-- VUOTO -->
+        <script>
+            function sportsCenterEditLoad(response){
+                loadPartialIntoElement(response, "#sportscenter-manager .work-area-show");
+            }
+        </script>
+    </div>
+    <div class = "work-area-show">
+        <!--Qui ci deve essere richiamato il partial dello sportscenter edit-->
+    </div>
+</div>
+
+<div class="modal fade" id="sportscenter-new" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Nuovo centro sportivo</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <script>
+          $('#sportscenter-new').on('shown.bs.modal', function(){
+            requester('sports_centers_new', 'GET', 'HTML', sportsCenterNewLoad, onFailureRedirect);
+          });
+
+          $('#sportscenter-new').on('hidden.bs.modal', function(){
+            $('#sports-center-new .modal-body').empty();
+          });
+
+            function sportsCenterNewLoad(response){
+                loadPartialIntoElement(response, '#sportscenter-new .modal-body');        
+            }
+
+        $(document).ready( function(){
+            $('#sportscenter-manager-updatesubmit').on('click', function(e){
+                e.preventDefault();
+                const url ="<%= sports_centers_update_path(@sports_center) %>";
+                const formData = $('#new_sports_center').serialize();
+                $.ajax({
+                    url: url,
+                    type: 'PATCH',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response){
+                        $('.work-area').hide();
+                        $('.work-area-show').empty();
+                        $('#sportscenter-manager').show();
+                        requester('sports_centers_edit?id='+sport_center_id, 'GET', 'HTML', sportsCenterEditLoad, onFailureRedirect);
+                    },
+                    error: function(xhr, status, error){
+                        onFailure(xhr.status);
+                    }
+                });
+            });
+        });
+        </script>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div style="display: none;" id="delegate-manager" class="work-area">
+    <h2 class="work-area-heading"><i class="fas fa-cogs"></i> Gestione delegati</h2>
+    <div class="work-area-command">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delegate-manager-new">Nuovo delegato</button>
+    </div>
+    <div class = "work-area-show">
+        <!-- This section are used by Javascript -->
+        <script>
+            function delegateIndexLoad(response){
+                console.log(response)
+                response.forEach(delegate => {
+                    const delegateHtml = `
+                        <div>
+                            <p>Nome: ${delegate.name}</p>
+                            <p>Cognome: ${delegate.name}</p>
+                            <p>Email: ${delegate.email}</p>
+                            <button class="btn btn-danger delete-delegate" data-email="${delegate.email}" data-id="${delegate.id}">Elimina Delegato</button>
+                        </div>
+                    `;
+                    $('#delegate-manager .work-area-show').append(delegateHtml);
+                });
+
+                $(document).on('click', '.delete-delegate', function(){
+                    const delegateId = $(this).data('id');
+                    const delegateEmail = $(this).data('email');
+                    const url = `sports_centers_delegate_remove?sport_center_id=${delegateId}&email=${encodeURIComponent(delegateEmail)}`;
+                    if(confirm('Sei sicuro di voler eliminare questo delegato?')){
+                        $.ajax({
+                            url: url,
+                            method: 'DELETE',
+                            data: {
+                                sport_center_id: delegateId,
+                                email: delegateEmail
+                            },
+                            dataType: 'json',
+                            success: function(response){
+                                $('button[data-id='+delegatedId+']').closest('div').remove(); // Rimuovi l'elemento dal DOM
+                            },
+                            error: function(xhr, status, error){
+                                console.log("Error");
+                            }
+                        });
+                    }
+                });
+            }
+        </Script>
+    </div>
+</div>
+
+<div class="modal fade" id="delegate-manager-new" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Nuovo delegato</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <script>
+            $('#delegate-manager-new').on('shown.bs.modal', function(){
+                requester('sports_centers_delegate_new', 'GET', 'HTML', delegateNewLoad, onFailureRedirect);
+            });
+            $('#delegate-manager-new').on('hidden.bs.modal', function(){
+                $('#sports-center-new .modal-body').empty();
+            });
+            function delegateNewLoad(response){
+                loadPartialIntoElement(response, '#delegate-manager-new .modal-body');        
+            }
+
+            //PREVENIRE IL COMPORTAMENTO DI DEFAULT DEL TUTTO
+
+        </script>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- sezione recensioni -->
+<div style="display: none;" id="review-manager" class="work-area">
+    <h2 class="work-area-heading"><i class="fas fa-star"></i> Gestione recensioni</h2>
+    <div class="work-area-show">
+        <script>
+            //Attivato da onclick, TODO: standardizzare
+            function loadPartnerReviews(partnerId) {
+                $.ajax({
+                    url: `/partner_reviews`,  // Usa la rotta corretta
+                    type: 'GET',
+                    dataType: 'html',
+                    data: { partner_id: partnerId }, // Passa il partner_id come parametro
+                    success: function (response) {
+                        $('#review-manager .work-area-show').html(response);
+                    },
+                    error: function () {
+                        $('#review-manager .work-area-show').html('<p class="text-danger">Errore nel caricamento delle recensioni. Riprova più tardi.</p>');
+                    }
+                });
+            }
+        </script>
+        <p>Caricamento recensioni...</p>
+    </div>
+</div>
+<!--Fine sezione recensioni-->
+
+<!-- Sezione booking -->
+<div style="display: none;" id="playground-manager" class="work-area">
+    <h2 class="work-area-heading"><i class="fas fa-futbol"></i> Gestione Campi Sportivi</h2>
+    <div class="work-area-command">
+    </div>
+    <div class="work-area-command">
+        <%= link_to "Nuovo Campo", new_field_path, class: "btn btn-primary" %>
+    </div>
+    <div class="fields-wrapper-admin">
+        <% @fields.each do |field| %>
+            <div class="field-card">
+                <div class="field-info">
+                <%= link_to field_path(field) do %>
+                    <h2><%= field.nome %></h2>
+                <% end %>
+                <p>Creato il: <%= field.created_at.strftime("%d/%m/%Y") %></p>
+                <p>Appartiene a: <%= field.sports_center.company_name %></p>
+                </div>
+                <div class="field-actions">
+                <%= link_to 'Modifica', edit_field_path(field), class: 'btn btn-secondary' %>
+                <%= link_to 'Elimina', field, method: :delete, data: { confirm: 'Sei sicuro?' }, class: 'btn btn-danger' %>
+                </div>
+            </div>
+        <% end %>
+    </div>
+</div>
+
+<!-- Booking manager-->
+<div style="display: none;" id="booking-manager" class="work-area">
+    <h2 class="work-area-heading"><i class="fas fa-calendar-alt"></i> Gestione Prenotazioni</h2>
+    <div class="work-area-command"></div>
+    <div class = "work-area-command">
+        <div class="fields-wrapper-admin">
+        <% if @bookings.any? %>
+            <% @bookings.each do |booking| %>
+                <div class="booking-card">
+                    <div class="booking-info">
+                        <h2><%= booking.slot.field.nome %></h2>
+                        <p><strong>Data:</strong> <span><%= booking.slot.start_time.strftime('%d/%m/%Y %H:%M') %></span></p>
+                        <p><strong>Prezzo:</strong> <span>€<%= booking.slot.field.prezzo %></span></p>
+                        <p><strong>Cliente</strong> <span><%= booking.user_id %></span></p>
+                    </div>
+                </div>
+            <% end %>
+        <% else %>
+        <p>Nessuna prenotazione trovata.</p>
+        <% end %>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Sezione script -->
+<script>
+    //Functions that manages the layout
+    $(document).on('mouseenter', '.dashboard-control', showPopover);
+    $(document).on('mouseleave', '.dashboard-control', hidePopover);
+    $(document).on('click', '.dashboard-control', dashboardChangeTab);
+    function showPopover(){
+        $(this).popover({
+            placement: 'right',
+            html: true,
+            trigger:'show',
+        });
+        $(this).popover('show');
+        return;
+    }
+    function hidePopover(){
+        $(this).popover('dispose');
+        return;
+    }
+    function dashboardChangeTab(){
+        $('.work-area').hide();
+        $('.work-area-show').empty();
+        var targetId = $(this).attr('data-target');
+        $(targetId).show()
+        
+        //Clean all div
+        
+        //Prepare the next div
+        if(targetId == '#sportscenter-manager'){
+            requester('sports_centers_edit?id='+sport_center_id, 'GET', 'HTML', sportsCenterEditLoad, onFailureRedirect);
+        }
+        if(targetId == '#delegate-manager'){
+            requester('sports_centers_delegate_index?id='+sport_center_id, 'GET', 'JSON', delegateIndexLoad, onFailureRedirect);
+        }
+        
+    }
+
+    // Send an ajax request to remote server
+    function requester(requestUrl, requestType, requestDataType, onSuccess, onFailure){
+        $.ajax({
+            url: requestUrl,
+            type: requestType,
+            dataType: requestDataType,
+            success: function(response){
+                onSuccess(response);
+            },
+            error: function(xhr, status, error){
+                onFailure(xhr.status);
+            }
+        });
+    }
+    function loadPartialIntoElement(toLoad, whereLoad){
+        $(whereLoad).html(toLoad);
+    }
+    function onFailureRedirect(code){
+        console.log("ERRORE!");
+        //window.location.href = '/error?'+code;
+    }
+
+    // Function that manage the sportCenters 
+    $(document).ready(function(){
+        requester('sports_centers', 'GET', 'JSON', sportsCenterSelector, onFailureRedirect);
+        $('#-tp-header-heading-sportscenter-chooser').on('change', sportCenterChangeReaction);
+    })
+    
+    var sport_center_id = null;
+
+    function sportsCenterSelector(response){
+        if(!response || response.length === 0){
+            //TODO: DA GESTIRE
+            return;
+        }
+        const select = $('#-tp-header-heading-sportscenter-chooser');
+        select.empty();
+        response.forEach(function(sportsCenter){
+            const option = $('<option></option>').val(sportsCenter.id).text(sportsCenter.company_name);
+            select.append(option);
+        });
+        sport_center_id = $('#-tp-header-heading-sportscenter-chooser option:first').val();
+        $('#-tp-header-heading-sportscenter-chooser option:first').prop('selected', true);
+        $('.work-area').hide();
+        $('.work-area-show').empty();
+        $('#sportscenter-manager').show();
+        requester('sports_centers_edit?id='+sport_center_id, 'GET', 'HTML', sportsCenterEditLoad, onFailureRedirect);
+    }
+    function sportCenterChangeReaction(){
+        sport_center_id = $('#-tp-header-heading-sportscenter-chooser').val();
+        $('.work-area').hide();
+        $('.work-area-show').empty();
+        $('#sportscenter-manager').show();
+        requester('sports_centers_edit?id='+sport_center_id, 'GET', 'HTML', sportsCenterEditLoad, onFailureRedirect);
+    }
+</script>

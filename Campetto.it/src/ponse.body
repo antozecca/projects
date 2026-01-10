@@ -1,0 +1,15 @@
+
+[1mFrom:[0m /home/loris01/campetto.it/spec/controllers/users_controller_spec.rb:120 :
+
+    [1;34m115[0m: 
+    [1;34m116[0m:         session[[33m:user_id[0m] = user.id
+    [1;34m117[0m: 
+    [1;34m118[0m:         get [33m:accountUtente[0m
+    [1;34m119[0m: 
+ => [1;34m120[0m:         binding.pry
+    [1;34m121[0m:         
+    [1;34m122[0m:         expect(response).to have_http_status([33m:success[0m)
+    [1;34m123[0m: 
+    [1;34m124[0m:         expect(response).to render_template([33m:accountUtente[0m)
+    [1;34m125[0m:       [32mend[0m
+

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Campetto</title>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+<body>
+
+  <div class="container field-show-container mt-5">
+    <!-- Dettagli del Campo -->
+    <div class="row">
+      <!-- Immagine del campo -->
+      <% if @field.image.attached? %>
+        <div class="col-md-7">
+          <div id="fieldCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <%= image_tag @field.image, class: "d-block w-100" %>
+              </div>
+            </div>
+            <!-- Controlli del carousel -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#fieldCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Precedente</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#fieldCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Successivo</span>
+            </button>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Informazioni sul campo -->
+      <div class="col-md-5">
+        <h1 class="field-title"><%= @field.nome %></h1>
+        <hr>
+        <p class="field-description"><%= @field.descrizione %></p>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Sport:</strong> <%= @field.sport %></li>
+          <li class="list-group-item"><strong>Prezzo:</strong> €<%= @field.prezzo %></li>
+          <li class="list-group-item">
+            <strong>Indirizzo:</strong> <span><%= @field.via %>, <%= @field.cap %> <%= @field.citta %>
+          </li>
+        </ul>
+
+        <!-- Pulsanti di Azione -->
+        <div class="mt-4 d-flex flex-column align-items-center">
+          <!-- Pulsante Visualizza Recensioni -->
+          <%= link_to 'Visualizza Recensioni', field_reviews_path(@field), class: "btn btn-primary action-button mb-2" %>
+          <!-- Pulsante Torna alla Ricerca -->
+          <%= link_to 'Torna alla Ricerca', search_fields_path(clear: true), class: "btn btn-secondary action-button" %>
+
+        </div>
+      </div>
+    </div> <!-- Fine di .row -->
+
+    <h2 class="text-center">Prenota un campo</h2>
+
+      <!-- Navigazione Giorni e Selezione Data -->
+      <div class="day-navigation">
+        <% if @selected_date > Date.today %>
+          <%= link_to 'Giorno precedente', field_path(@field, date: @selected_date - 1), class: 'btn btn-outline-primary prev-day' %>
+        <% else %>
+          <button disabled class="btn btn-outline-secondary prev-day disabled">Giorno precedente</button>
+        <% end %>
+
+        <!-- Form Selezione Data -->
+        <%= form_with url: field_path(@field), method: :get, local: true, class: 'date-picker-form' do %>
+          <label for="date" class="form-label mb-0 me-2">Seleziona una data:</label>
+          <%= date_field_tag :date, @selected_date, min: Date.today, class: 'form-control d-inline-block w-auto me-2' %>
+          <button type="submit" class="btn btn-primary">Visualizza</button>
+        <% end %>
+
+        <!-- Bottone Giorno Successivo -->
+        <%= link_to 'Giorno successivo', field_path(@field, date: @selected_date + 1), class: 'btn btn-outline-primary next-day' %>
+      </div>
+    <!-- Sezione Prenotazione -->
+    <div class="booking-section mt-5">
+
+      <!-- Slot Disponibili -->
+      <h2 class="mt-4">Slot disponibili per il <%= @selected_date.strftime("%d %B %Y") %>:</h2>
+
+      <div class="slot-container">
+        <% slots_available = @field.slots.where(booked: false, start_time: @selected_date.beginning_of_day..@selected_date.end_of_day) %>
+        <% if slots_available.any? %>
+          <% slots_available.each do |slot| %>
+            <% if @selected_date.to_date != Date.today || slot.start_time >= Time.now %>
+              <div class="slot-card">
+                <p>
+                  <strong><%= slot.start_time.strftime('%d/%m/%Y %H:%M') %> - <%= slot.end_time.strftime('%H:%M') %></strong>
+                </p>
+                <%= link_to 'Prenota', checkout_create_path(slot_id: slot.id), method: :post, class: 'btn btn-success' %>
+              </div>
+            <% end %>
+          <% end %>
+        <% else %>
+          <p class="text-center">Nessuno slot disponibile per questa data.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

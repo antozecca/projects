@@ -1,0 +1,124 @@
+/* Stili per la pagina di modifica del campo sportivo */
+
+/* Sfondo della pagina */
+body {
+  background-color: #f8f9fa;
+  font-family: Arial, sans-serif;
+}
+
+/* Contenitore del modulo */
+.form-wrapper {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  max-width: 700px;
+  margin: 50px auto;
+}
+
+/* Titolo */
+.form-wrapper h1 {
+  text-align: center;
+  color: #009970;
+  margin-bottom: 20px;
+}
+
+/* Stile per i campi di input e il selettore */
+.form-control,
+.select-wrapper select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  transition: border-color 0.3s;
+}
+
+/* Cambia colore del bordo al focus */
+.form-control:focus,
+.select-wrapper select:focus,
+textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Stile per le etichette */
+.form-label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: block;
+  color: #555;
+}
+
+/* Contenitore per il dropdown */
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Stile del dropdown per uniformarlo agli altri campi */
+.custom-select {
+  appearance: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  padding: 10px;
+  width: 100%;
+}
+
+/* Pulsanti */
+.btn-primary {
+  background-color: #009970;
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 15px;
+  width: 100%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #00b383;
+}
+
+/* Link di ritorno */
+.actions a {
+  display: inline-block;
+  margin-top: 15px;
+  text-align: center;
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.actions a:hover {
+  color: #0056b3;
+}
+
+/* Stile per i messaggi di errore */
+.error-messages {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.error-messages h2 {
+  color: #721c24;
+}
+
+.error-messages ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.error-messages li {
+  color: #721c24;
+}
+

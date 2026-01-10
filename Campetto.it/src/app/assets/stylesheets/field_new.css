@@ -1,0 +1,219 @@
+/* field_new.css: Stili per la pagina di creazione campo */
+
+/* Sfondo della pagina */
+body {
+  background-color: #f8f9fa;
+}
+
+/* Contenitore del modulo */
+.form-wrapper {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  max-width: 800px;
+  margin: 50px auto;
+}
+
+/* Titolo */
+.form-wrapper h1 {
+  text-align: center;
+  color: #009970;
+  margin-bottom: 20px;
+}
+
+/* Stile per i campi di input */
+.form-control,
+.select-wrapper select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  transition: border-color 0.3s;
+}
+
+/* Cambia colore del bordo al focus */
+.form-control:focus,
+.select-wrapper select:focus,
+textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Stile per le etichette */
+.form-label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* Pulsanti */
+.btn-primary {
+  background-color: #009970;
+  color: white;
+  padding: 10px 30px;
+  font-size: 16px;
+  border: none;
+  border-radius: 15px;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #00b383;
+}
+
+.btn-secondary {
+  background-color: #666;
+  color: white;
+  padding: 10px 30px;
+  font-size: 16px;
+  border: none;
+  border-radius: 15px;
+  transition: 0.3s;
+  text-align: center;
+}
+
+.btn-secondary:hover {
+  background-color: #555;
+}
+
+/* Contenitore per il dropdown */
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Stile del dropdown per uniformare agli altri campi */
+.custom-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  padding: 10px;
+  padding-right: 40px;
+  width: 100%;
+  box-shadow: none;
+}
+
+/* Rimuovere il focus glow sui select in alcuni browser */
+.custom-select:focus {
+  outline: none;
+  border-color: #666;
+}
+
+/* Stile per i selettori multipli */
+.field-group {
+  margin-top: 2rem;
+}
+
+/* Stile per il gruppo di checkbox */
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.form-check {
+  margin-right: 15px;
+  margin-bottom: 10px;
+}
+
+.form-check-input {
+  margin-right: 5px;
+}
+
+.form-check-label {
+  margin-bottom: 0;
+}
+
+/* Nascondi i quadrati delle checkbox */
+.day-checkbox .form-check-input {
+  display: none;
+}
+
+
+/* Stile per i time select */
+.time-select-container {
+  display: flex;
+  align-items: center;
+}
+
+.time-select {
+  width: auto;
+  margin-left: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  transition: border-color 0.3s;
+}
+
+.time-select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Stile per i messaggi di errore */
+.error-messages {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.error-messages h2 {
+  color: #721c24;
+}
+
+.error-messages ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.error-messages li {
+  color: #721c24;
+}
+
+/* Stile aggiornato per i pulsanti di esclusione dei giorni */
+
+/* Griglia per i checkbox */
+.checkbox-group.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Spaziatura tra i pulsanti */
+}
+
+/* Stile individuale per ogni checkbox */
+.day-checkbox {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  border: 1px solid #009970;
+  border-radius: 10px;
+  background-color: #f1f1f1;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* Stile per il checkbox reale (nascosto) */
+.day-checkbox .form-check-input {
+  margin-right: 5px;
+  accent-color: #009970; /* Colore per Chrome, Safari, Edge */
+}
+
+/* Effetto hover e selezione */
+.day-checkbox:hover {
+  background-color: #e0f7ea;
+  border-color: #00b383;
+}
+
+.day-checkbox .form-check-input:checked + .form-check-label {
+  font-weight: 600;
+  color: #009970;
+}
+

@@ -1,0 +1,302 @@
+@font-face {
+    font-family: "Pixeled_English_Font";
+    src: url('/fonts/Pixeled_English_Font.ttf');
+}
+
+body,html{
+    margin:0;
+    padding:0;
+    height: 100%;
+    overflow: hidden;
+    background-color: black;
+}
+
+.game-container {
+    width: 1100px;
+    height: 700px;
+    margin: 0 auto;
+    margin-top: 20px;
+    outline: 1px solid white;
+    position: relative; 
+    background: url('/immagini/background.gif') no-repeat center center fixed;
+    background-size: 1100px 850px;
+}
+
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+}
+
+.container h1 {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-family: "Pixeled_English_Font"; 
+    font-size: 50px;
+    color: rgb(239, 167, 50);
+    text-align: center;
+}
+
+#nuova-partita{
+    text-align: center;
+    width: 100%;
+    padding:0;
+    margin-top: 100px;
+}
+
+.personaggio{
+    position: relative;
+    width: 200px;
+    height: 300px;
+    border: 2px solid black;
+    margin: 10px;
+    padding: 10px 20px;
+    font-family: "Pixeled_English_Font";
+    border: 2px solid rgb(239, 167, 50);
+    border-radius: 5px;
+    display: inline-block;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: rgb(239, 167, 50);
+    margin-bottom: 40px;
+    overflow: hidden;
+    transition: opacity 0.3s;
+}
+
+.menu-button {
+    position: absolute;
+    height: 60px;
+    top: 40px;
+    margin-bottom: 10px;
+    padding: 0 5px;
+    font-family: "Pixeled_English_Font"; 
+    font-size: 50px;
+    background-color: black;
+    color: rgb(239, 167, 50);
+    border: 2px solid rgb(239, 167, 50);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 40px;
+    margin-left: 20px;
+}
+
+.menu-button:hover {
+    background-color: #555;
+}
+
+.personaggio:hover {
+    background-color: rgba(44, 43, 43, 0.7);
+}
+
+.personaggio:hover h2,
+.personaggio:hover .menu-button-bottom,
+.personaggio:hover .progress-screen{
+    opacity:1;
+}
+
+.menu-button-bottom{
+    transition: opacity 0.3s;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+    background-color: black;
+    color: rgb(239, 167, 50);
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+.button-wrapper{
+    text-align: center;
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#pronto-button{
+    padding: 10px 20px;
+    font-size: 30px;
+    font-family: "Pixeled_English_Font";
+    background-color:black;
+    color:  rgb(239, 167, 50);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: 2px solid rgb(239, 167, 50);
+}
+
+#pronto-button:hover{
+    background-color:  rgb(100, 99, 99);
+}
+
+#pronto-button:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.character-image {
+    width: 200px;
+    height: 300px;
+}
+
+.character-image {
+    width: 100%;
+    height: auto;
+}
+
+.class-name {
+    font-family: "Pixeled_English_Font";
+    text-align: center;
+    margin-top: 10px;
+}
+
+.confirmation-box {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px; 
+    border: 2px solid rgb(239, 167, 50);
+    border-radius: 5px;
+    font-size: 20px;
+    color: rgb(239, 167, 50);
+    text-align: center; 
+    transition: background-color 0.3s;
+}
+
+.level-stregone {
+    font-family: "Pixeled_English_Font";
+    text-align: center;
+    margin-top: 20px;
+    color: rgb(239, 167, 50);
+}
+
+.level-cavaliere {
+    font-family: "Pixeled_English_Font";
+    text-align: center;
+    margin-top: 20px;
+    color: rgb(239, 167, 50);
+}
+
+.level-cacciatrice {
+    font-family: "Pixeled_English_Font";
+    text-align: center;
+    margin-top: 20px;
+    color: rgb(239, 167, 50);
+}
+
+.level-chierico {
+    font-family: "Pixeled_English_Font";
+    text-align: center;
+    margin-top: 20px;
+    color: rgb(239, 167, 50);
+}
+
+.experience-bar-stregone {
+    width: 100%;
+    height: 15px;
+    background-color: lightblue;
+    border-radius: 10px;
+}
+
+.experience-bar-cavaliere {
+    width: 100%;
+    height: 15px;
+    background-color: lightblue;
+    border-radius: 10px;
+}
+
+.experience-bar-cacciatrice {
+    width: 100%;
+    height: 15px;
+    background-color: lightblue;
+    border-radius: 10px;
+}
+
+.experience-bar-chierico {
+    width: 100%;
+    height: 15px;
+    background-color: lightblue;
+    border-radius: 10px;
+}
+
+.experience-sample {
+    position: relative;
+    width: 100%;
+    height: 15px;
+    border: 1px solid rgb(239, 167, 50);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+.experience-text-stregone {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: "Pixeled_English_Font", sans-serif;
+    font-size: 15px;
+    color: rgb(239, 167, 50);
+    padding-top: 4px;
+}
+
+.experience-text-cavaliere {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: "Pixeled_English_Font", sans-serif;
+    font-size: 15px;
+    color: rgb(239, 167, 50);
+    padding-top: 4px;
+}
+
+.experience-text-cacciatrice {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: "Pixeled_English_Font", sans-serif;
+    font-size: 15px;
+    color: rgb(239, 167, 50);
+    padding-top: 4px;
+}
+
+.experience-text-chierico {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: "Pixeled_English_Font", sans-serif;
+    font-size: 15px;
+    color: rgb(239, 167, 50);
+    padding-top: 4px;
+}
+
+.username {
+    position: absolute;
+    top: 110px;
+    right: 20px;
+    color: rgb(239, 167, 50);
+    font-family: "Pixeled_English_Font", sans-serif;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.personaggio.selected {
+    border-color: rgb(239, 167, 50);
+}
+
+.personaggio:not(.selected) {
+    opacity: 0.7;
+}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Campetto</title>
+    <%= stylesheet_link_tag 'administrator_login', media: 'all' %>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+</head>
+<body>
+    <div class="admin-login-container">
+        <% provide(:title, "Partner password dimenticata")%>
+        <h1>Recupera la tua password</h1>
+
+        <%= form_for(:password_reset, url: partner_password_resets_path, html: { class: 'admin-login-form' }) do |f| %>
+            <%= f.label :email %>
+            <%= f.email_field :email, class: 'form-control' %>
+            <%= f.submit "Recupera", class: "btn btn-primary" %>
+        <% end %>
+    </div>
+</body>
+</html>

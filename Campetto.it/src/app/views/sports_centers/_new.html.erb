@@ -1,0 +1,26 @@
+<%= form_for @sports_center do |f| %>
+    
+    <%= f.label :company_name, "Ragione sociale centro sportivo:* " %>
+    <%= f.text_field :company_name, required: true %>
+    
+    <%= f.label :tax_code, "Codice fiscale centro sportivo:* " %>
+    <%= f.text_field :tax_code, required: true  %>
+
+    <%= f.label :vat_number, "Partita IVA centro sportivo:* " %>
+    <%= f.text_field :vat_number, required: true  %>
+
+    <%= f.label :iban, "IBAN centro sportivo:* " %>
+    <%= f.text_field :iban, required: true %>
+
+    <%= f.label :email, "Email centro sportivo:* " %>
+    <%= f.text_field :email, required: true %>
+    
+    <%= f.label :phone, "Telefono centro sportivo:* " %>
+    <%= f.text_field :phone, required: true %>
+
+    <%= f.label :registered_office, "Sede legale:* " %>
+    <%= f.text_field :registered_office, required: true %>
+
+    <%= f.submit "Crea centro sportivo" %>
+
+<% end %>

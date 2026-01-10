@@ -1,0 +1,24 @@
+<% content_for :stylesheets do %>
+  <%= stylesheet_link_tag 'checkout_success', media: 'all' %>
+<% end %>
+
+<% image_url = @field.image.attached? ? url_for(@field.image) : asset_path('default_background.jpg') %>
+
+<div class="success-container" data-image-url="<%= image_url %>">
+  <div class="success-message">
+    <i class="fas fa-check-circle"></i>
+    <h1>Prenotazione completata!</h1>
+    <p>Grazie per aver prenotato <strong><%= @field.nome %></strong>.</p>
+    <p>Ti aspettiamo sul campo il giorno della tua prenotazione.</p>
+    <%= link_to 'Visualizza le tue prenotazioni', bookings_path, class: 'btn btn-success action-button me-2' %>
+    <%= link_to 'Torna alla Home', root_path, class: 'btn btn-secondary action-button' %>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var container = document.querySelector('.success-container');
+    var imageUrl = container.getAttribute('data-image-url');
+    container.style.backgroundImage = 'url(' + imageUrl + ')';
+  });
+</script>
+

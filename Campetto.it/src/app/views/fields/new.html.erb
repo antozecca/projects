@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Campetto</title>
+  <%= stylesheet_link_tag 'field_new', media: 'all', 'data-turbolinks-track': 'reload' %>
+</head>
+<body>
+
+  <div class="form-wrapper">
+    <h1>Crea un Nuovo Campo Sportivo</h1>
+
+    <%= form_with model: @field, local: true, class: "form" do |form| %>
+
+      <!-- Mostra errori di validazione se presenti -->
+      <% if @field.errors.any? %>
+        <div class="error-messages">
+          <h2><%= pluralize(@field.errors.count, "errore") %> trovato:</h2>
+          <ul>
+            <% @field.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <!-- ID Centro Sportivo -->
+      <div class="form-group">
+        <%= form.label :sports_center_id, "ID del tuo Centro Sportivo", class: "form-label" %>
+        <%= form.number_field :sports_center_id, required: true, class: "form-control" %>
+      </div>
+      <!-- Campo Nome -->
+      <div class="form-group">
+        <%= form.label :nome, "Nome del Campo", class: "form-label" %>
+        <%= form.text_field :nome, class: "form-control", placeholder: "Inserisci il nome del campo", required:true %>
+      </div>
+
+      <!-- Campo Descrizione -->
+      <div class="form-group">
+        <%= form.label :descrizione, "Descrizione", class: "form-label" %>
+        <%= form.text_area :descrizione, class: "form-control", placeholder: "Inserisci una descrizione", required:true %>
+      </div>
+
+      <!-- Campo Sport -->
+      <div class="form-group">
+        <%= form.label :sport, "Sport", class: "form-label" %>
+        <div class="select-wrapper">
+          <%= form.select :sport, options_for_select(["Calcio", "Calcetto", "Calcio a 7", "Calcio a 8", "Calcio-Tennis", "Basket", "Tennis", "Pallavolo", "Padel", "Rugby"]), {}, class: "form-control custom-select" %>
+        </div>
+      </div>
+
+      <!-- Campo Prezzo -->
+      <div class="form-group">
+        <%= form.label :prezzo, "Prezzo (€)", class: "form-label" %>
+        <%= form.number_field :prezzo, class: "form-control", step: 0.01, required:true %>
+      </div>
+
+      <!-- Campo Via -->
+      <div class="form-group">
+        <%= form.label :via, "Indirizzo (Via e Numero Civico)", class: "form-label"%>
+        <%= form.text_field :via, class: "form-control", placeholder: "Es. Via Roma 123", required: true %>
+      </div>
+
+      <!-- Campo CAP -->
+      <div class="form-group">
+        <%= form.label :cap, "CAP", class: "form-label"%>
+        <%= form.text_field :cap, class: "form-control", placeholder: "Es. 00100", required: true %>
+      </div>
+
+      <!-- Campo Città -->
+      <div class="form-group">
+        <%= form.label :citta, "Città", class: "form-label"%>
+        <%= form.text_field :citta, class: "form-control", placeholder: "Es. Roma", required: true %>
+      </div>
+
+      <!-- Campo Immagine -->
+      <div class="form-group">
+          <%= form.label :image, "Immagine del Campo", class: "form-label" %>
+          <%= form.file_field :image, class: "form-control", required: true, accept: "image/jpeg,image/gif,image/png,image/bmp,image/webp" %>
+      </div>
+
+      <!-- Nuovi campi per gli slot -->
+      <div class="form-group">
+        <%= form.label :start_time, "Orario di inizio degli slot", class: "form-label" %>
+        <div class="time-select-container">
+          <%= form.time_select :start_time, {minute_step: 10, include_seconds: false }, required: true, class: 'time-select' %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :end_time, "Orario di fine degli slot", class: "form-label" %>
+        <div class="time-select-container">
+          <%= form.time_select :end_time, {minute_step: 10,  include_seconds: false }, required: true, class: 'time-select' %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :interval, "Intervallo degli slot (in minuti)", class: "form-label" %>
+        <%= form.number_field :interval, step: 15, value: 60, required: true, class: "form-control" %>
+      </div>
+
+      <!-- Definizione dell'array dei giorni della settimana -->
+      <% days_of_week = [['Domenica', 0], ['Lunedì', 1], ['Martedì', 2], ['Mercoledì', 3], ['Giovedì', 4], ['Venerdì', 5], ['Sabato', 6]] %>
+
+      <!-- Checkbox per i giorni da escludere -->
+      <div class="form-group">
+  <%= form.label :exclude_days, "Giorni da escludere", class: "form-label" %><br>
+  <div class="checkbox-group grid">
+    <% days_of_week.each do |day_name, day_value| %>
+      <div class="form-check day-checkbox">
+        <%= check_box_tag "field[exclude_days][]", day_value, @field.exclude_days.include?(day_value.to_s), id: "field_exclude_days_#{day_value}", class: 'form-check-input' %>
+        <%= label_tag "field_exclude_days_#{day_value}", day_name, class: 'form-check-label' %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+      <!-- Bottone per creare il campo -->
+      <div class="form-group">
+        <%= form.submit "Crea Campo", class: "btn btn-primary mt-3 w-100" %>
+      </div>
+
+    <% end %>
+
+    <!-- Link per tornare alla lista dei campi -->
+    <%= link_to 'Torna alla lista dei campi', fields_path, class: 'btn btn-secondary mt-3' %>
+  </div>
+
+</body>
+</html>
+

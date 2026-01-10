@@ -1,0 +1,21 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+body {
+    background: black;
+    font-family: "Pixeled_English_Font", sans-serif;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.game-container {
+    position: relative;
+    width: 1100px;
+    height: 700px;
+    margin: 0 auto;
+    margin-top: 20px;
+    outline: 1px solid white;
+}

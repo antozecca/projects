@@ -1,0 +1,53 @@
+<%= stylesheet_link_tag 'reviews_new', media: 'all' %>
+
+<div class="review-form-wrapper">
+  <h1 class="title">Aggiungi una Recensione per <%= @field.nome %></h1>
+
+  <!-- Messaggio se l'utente non è loggato -->
+  <% unless current_user %>
+    <p>Devi essere loggato per aggiungere una recensione. <%= link_to 'Accedi', login_path %> o <%= link_to 'Registrati', signup_path %>.</p>
+  <% else %>
+    <%= form_with(model: [@field, @review], local: true, class: "form") do |form| %>
+
+      <!-- Mostra errori di validazione se presenti -->
+      <% if @review.errors.any? %>
+        <div class="error-messages">
+          <h2><%= pluralize(@review.errors.count, "errore") %> trovato:</h2>
+          <ul>
+            <% @review.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <!-- Titolo della Recensione -->
+      <div class="form-group">
+        <%= form.label :titolo, "Titolo della Recensione", class: "form-label" %>
+        <%= form.text_field :titolo, class: "form-control", placeholder: "Inserisci il titolo della recensione" %>
+      </div>
+
+      <!-- Valutazione -->
+      <div class="form-group">
+        <%= form.label :valutazione, "Valutazione (da 1 a 5)", class: "form-label" %>
+        <%= form.number_field :valutazione, class: "form-control", min: 1, max: 5, step: 1 %>
+      </div>
+
+      <!-- Testo della Recensione -->
+      <div class="form-group">
+        <%= form.label :testo, "Testo della Recensione", class: "form-label" %>
+        <%= form.text_area :testo, class: "form-control", placeholder: "Scrivi la tua recensione qui" %>
+      </div>
+
+      <!-- Bottone per inviare la recensione -->
+      <div class="form-group">
+        <%= form.submit "Invia Recensione", class: "btn btn-primary" %>
+      </div>
+
+    <% end %>
+  <% end %>
+
+  <!-- Link per tornare alla lista delle recensioni -->
+  <%= link_to 'Torna alle Recensioni', field_reviews_path(@field), class: 'btn btn-secondary mt-3' %>
+</div>
+

@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nome: MyString
+  descrizione: MyText
+  sport: MyString
+  prezzo: 9.99
+  latitudine: 9.99
+  longitudine: 9.99
+
+two:
+  nome: MyString
+  descrizione: MyText
+  sport: MyString
+  prezzo: 9.99
+  latitudine: 9.99
+  longitudine: 9.99

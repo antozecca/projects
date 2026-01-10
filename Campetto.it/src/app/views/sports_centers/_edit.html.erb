@@ -1,0 +1,28 @@
+<%= form_with(model: @sports_center, url: "#{sports_centers_update_path}?id=#{@sports_center.id}") do |f| %>
+    <%= f.hidden_field :id %>
+    
+    <%= f.label :company_name, "Ragione sociale centro sportivo:* " %>
+    <%= f.text_field :company_name, disabled: true %>
+    
+    <%= f.label :tax_code, "Codice fiscale centro sportivo:* " %>
+    <%= f.text_field :tax_code, disabled: true  %>
+
+    <%= f.label :vat_number, "Partita IVA centro sportivo:* " %>
+    <%= f.text_field :vat_number, disabled: true  %>
+
+    <%= f.label :iban, "IBAN centro sportivo:* " %>
+    <%= f.text_field :iban, required: true %>
+
+    <%= f.label :email, "Email centro sportivo:* " %>
+    <%= f.text_field :email, required: true %>
+    
+    <%= f.label :phone, "Telefono centro sportivo:* " %>
+    <%= f.text_field :phone, required: true %>
+
+    <%= f.label :registered_office, "Sede legale:* " %>
+    <%= f.text_field :registered_office, required: true %>
+
+    <button tye="button" id="sportscenter-manager-updatesubmit", class="btn btn-primary">Salva modifiche</button>
+
+<% end %>
+<%= button_to "Elimina il centro sportivo", "#{sports_centers_destroy_path}?id=#{@sports_center.id}", method: :delete, data:{ confirm: "Sei sicuro di voler eliminare questo centro sportivo?"}, class: "btn btn-danger" %>

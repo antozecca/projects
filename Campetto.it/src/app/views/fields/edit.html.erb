@@ -1,0 +1,58 @@
+  <%= stylesheet_link_tag 'edit_field', media: 'all', 'data-turbolinks-track': 'reload' %>
+<div class="form-wrapper">
+  <h1>Modifica Campo Sportivo</h1>
+  <%= form_with model: @field, local: true, class: "form" do |form| %>
+
+    <!-- Mostra errori di validazione se presenti -->
+    <% if @field.errors.any? %>
+      <div class="error-messages">
+        <h2><%= pluralize(@field.errors.count, "errore") %> trovato:</h2>
+        <ul>
+          <% @field.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Campo Nome -->
+    <div class="form-group">
+      <%= form.label :nome, "Nome del Campo", class: "form-label" %>
+      <%= form.text_field :nome, class: "form-control", placeholder: "Inserisci il nome del campo", required:true %>
+    </div>
+
+    <!-- Campo Descrizione -->
+    <div class="form-group">
+      <%= form.label :descrizione, "Descrizione", class: "form-label" %>
+      <%= form.text_area :descrizione, class: "form-control", placeholder: "Inserisci una descrizione", required:true %>
+    </div>
+
+    <!-- Campo Sport -->
+    <div class="form-group">
+      <%= form.label :sport, "Sport", class: "form-label" %>
+      <div class="select-wrapper">
+        <%= form.select :sport, options_for_select(["Calcio", "Calcetto", "Calcio a 7", "Calcio a 8", "Calcio-Tennis", "Basket", "Tennis", "Pallavolo", "Padel", "Rugby"]), {}, class: "form-control custom-select" %>
+      </div>
+    </div>
+
+    <!-- Campo Prezzo -->
+    <div class="form-group">
+      <%= form.label :prezzo, "Prezzo (€)", class: "form-label" %>
+      <%= form.number_field :prezzo, class: "form-control", step: 0.01, required:true %>
+    </div>
+
+    <!-- Campo Immagine -->
+    <div class="form-group">
+      <%= form.label :image, "Immagine del Campo", class: "form-label" %>
+      <%= form.file_field :image, class: "form-control"%>
+    </div>
+
+    <div class="actions">
+      <%= form.submit 'Aggiorna Campo', class: "btn btn-primary" %>
+    </div>
+    
+    <%= link_to 'Torna alla Lista', fields_path %>
+  <% end %>
+</div>
+
+

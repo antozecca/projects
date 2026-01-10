@@ -1,0 +1,93 @@
+/* Stile del contenitore principale */
+.container-campi {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 20px;
+  height: 60vh;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #009970;
+}
+
+/* Stile per il bottone aggiungi campo */
+.add-field-btn {
+  display: inline-block;
+  margin-bottom: 30px; /* Aggiunge spazio tra il bottone e i campi esistenti */
+  padding: 10px 20px;
+  background-color: #009970;
+  color: white;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.add-field-btn:hover {
+  background-color: #00b383;
+}
+
+/* Stile del wrapper dei campi */
+.fields-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive Grid */
+  gap: 30px; /* Spazio tra i campi */
+}
+
+/* Stile di ciascun campo */
+.field-card {
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.field-card:hover {
+  transform: translateY(-10px);
+}
+
+/* Stile per l'immagine del campo */
+.field-image {
+  height: 200px;
+  overflow: hidden;
+}
+
+.field-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Stile delle informazioni del campo */
+.field-info {
+  padding: 15px;
+  text-align: center;
+}
+
+.field-info h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.field-info p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+/* Stile dei pulsanti */
+.field-actions {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+}
+
+.field-actions .btn {
+  margin: 0 10px;
+}
+

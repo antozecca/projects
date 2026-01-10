@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gaol</title>
+    <link href="/stili/stile.css" type="text/css" rel="stylesheet">
+    <link href="/stili/login.css" type="text/css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/immagini/favicon.ico">
+</head>
+<body>
+    <form id="login-form">
+        <div class="game-container">
+            <canvas class="game-canvas" width="1100" height="700"></canvas>
+        </div>
+        <div class="center">
+            <button id="show-login">Login</button>
+        </div>
+        <div class="popup">
+            <div class="close-btn">&times;</div>
+            <div class="form">
+                <h2>Log in</h2>
+                <div class="form-element">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" placeholder="Inserisci username" required> 
+                </div>
+                <div class="form-element">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" placeholder="Inserisci password" required> 
+                </div>
+                <div class="form-element">
+                    <button id="login-btn" type="submit">Accedi</button>
+                </div>
+                <div id="error-message" style="color: red; font-weight: bold"></div>
+            </div>
+        </div>
+    </form>
+    <script src="/script/titolo.js"></script>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", 'login.php', true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                    if (this.responseText === 'success') {
+                        window.location.href = 'menu.php';
+                    } else {
+                        document.getElementById('error-message').innerHTML = this.responseText;
+                    }
+                }
+            }
+            xhr.send("username=" + username + "&password=" + password);
+        });
+    </script>
+</body>
+</html>

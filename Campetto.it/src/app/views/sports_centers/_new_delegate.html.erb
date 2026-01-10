@@ -1,0 +1,13 @@
+<%= form_with(url: sports_centers_delegate_create_path, method: :post) do |f|  %>
+
+    <%= hidden_field_tag :sport_center_id, '', id: 'delegate-manager-new-sportcenterid' %>
+    <script>
+        $('#delegate-manager-new-sportcenterid').val(sport_center_id);
+    </script>
+
+    <%= f.label :email, "Email" %>
+    <%= f.email_field :email %>
+
+    <button tye="button" id="delegate-manager-new-submit", class="btn btn-primary">Inserisci nuovo delegato</button>
+
+<% end %>

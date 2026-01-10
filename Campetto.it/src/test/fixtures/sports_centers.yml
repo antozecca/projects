@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tax_code: MyString
+  vat_number: MyString
+  campany_name: MyString
+  iban: MyString
+  email: 
+  phone: MyString
+
+two:
+  tax_code: MyString
+  vat_number: MyString
+  campany_name: MyString
+  iban: MyString
+  email: 
+  phone: MyString

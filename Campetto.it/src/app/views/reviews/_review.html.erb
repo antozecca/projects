@@ -1,0 +1,13 @@
+<div class="review-card">
+  <h3><%= review.titolo %></h3>
+  <p><strong>Valutazione:</strong> <%= review.valutazione %> / 5</p>
+  <p><strong>Campo:</strong> <%= review.field.nome %></p>
+  <p><strong>Data:</strong> <%= review.created_at.strftime('%d %B %Y') %></p>
+  <p><strong>Recensione:</strong> <%= review.testo %></p>
+
+  <!-- Azioni per i partner -->
+  <div class="review-actions">
+    <%= link_to 'Elimina', review_path(review), method: :delete, data: { confirm: 'Sei sicuro di voler eliminare questa recensione?' }, class: 'btn btn-danger' %>
+  </div>
+</div>
+

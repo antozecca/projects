@@ -1,0 +1,143 @@
+/* Stile generale per la sezione delle prenotazioni */
+.booking-pagina{
+  min-height: 70vh;
+}
+.bookings-filter {
+  display: flex;
+  justify-content: center; /* Centra i pulsanti orizzontalmente */
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.bookings-filter button {
+  background-color: #007bff; /* Colore principale */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 0 10px; /* Aggiunto margine orizzontale tra i pulsanti */
+}
+
+.bookings-filter button:hover {
+  background-color: #0056b3; /* Colore al passaggio del mouse */
+}
+
+.bookings-container {
+  margin: 0 auto;
+  max-width: 800px; /* Larghezza massima per la contenitore */
+  padding: 20px;
+}
+
+.booking-card {
+  display: flex;
+  border: 1px solid #ccc; /* Bordo per le card */
+  border-radius: 8px;
+  margin-bottom: 15px;
+  overflow: hidden; /* Nasconde il contenuto in eccesso */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombra per effetto 3D */
+  background-color: #fff; /* Colore di sfondo delle card */
+}
+
+.booking-image {
+  width: 35%; /* Larghezza completa del contenitore */
+  height: 220px; /* Altezza fissa per il riquadro (puoi modificare secondo le tue esigenze) */
+  overflow: hidden; /* Nasconde l'overflow dell'immagine */
+  position: relative; /* Necessario per il posizionamento assoluto dell'immagine */
+}
+
+.booking-image img {
+  width: 100%; /* Riempi tutto il contenitore */
+  height: 100%; /* Riempi tutto il contenitore */
+  object-fit: cover; /* Ritaglia l'immagine per adattarsi al contenitore */
+  position: absolute; /* Posiziona l'immagine in modo assoluto */
+  top: 50%; /* Centra verticalmente */
+  left: 50%; /* Centra orizzontalmente */
+  transform: translate(-50%, -50%); /* Trasla per centrare */
+}
+
+.booking-info {
+  padding: 15px; /* Padding interno */
+  flex: 1; /* Occupa lo spazio rimanente */
+}
+
+.booking-info h2 {
+  font-size: 1.5rem; /* Dimensione del titolo */
+  margin-bottom: 10px; /* Margine inferiore */
+}
+
+.booking-info p {
+  margin: 5px 0; /* Margini per i paragrafi */
+}
+
+.action-button {
+  background-color: #28a745; /* Colore del pulsante di azione */
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none; /* Rimuove la sottolineatura */
+  margin-bottom: 5px;
+}
+
+.action-button:hover {
+  opacity: 0.8; /* Effetto al passaggio del mouse */
+}
+
+.booking-report-form {
+  display: none; /* Nasconde il modulo di segnalazione di default */
+  margin-top: 10px; /* Margine superiore */
+  background-color: #f9f9f9; /* Sfondo del modulo */
+  padding: 15px; /* Padding interno del modulo */
+  border: 1px solid #ddd; /* Bordo del modulo */
+  border-radius: 5px; /* Bordo arrotondato */
+}
+
+.booking-report-form textarea {
+  width: 100%; /* Larghezza totale */
+  height: 60px; /* Altezza del textarea */
+  margin-bottom: 10px; /* Margine inferiore */
+  border: 1px solid #ccc; /* Bordo del textarea */
+  border-radius: 5px; /* Bordo arrotondato */
+  padding: 10px; /* Padding interno */
+  resize: none; /* Disabilita il ridimensionamento */
+}
+
+/* Stile per i messaggi di errore e conferma */
+.alert {
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.alert.success {
+  background-color: #d4edda; /* Verde chiaro per successi */
+  color: #155724; /* Colore del testo */
+  margin-bottom: 5px;
+}
+
+.alert.error {
+  background-color: #f8d7da; /* Rosso chiaro per errori */
+  color: #721c24; /* Colore del testo */
+}
+
+.green{
+  background-color: #16a03d;
+  margin-bottom: 5px;
+}
+
+.green:hover{
+  background-color: #0d842f
+}
+
+.report-button {
+  background-color: red; /* Colore di sfondo rosso */
+  color: white; /* Colore del testo bianco */
+}
+
+.report-button:hover {
+  background-color: darkred; /* Colore di sfondo al passaggio del mouse */
+}

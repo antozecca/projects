@@ -1,0 +1,4 @@
+Ciao <%= @partner.username %>
+
+Benvenuto in Campetto.it! Clicca sul link sotto per attivare il tuo account:
+<%= edit_partner_activation_url(@partner.activation_token, email: @partner.email) %>

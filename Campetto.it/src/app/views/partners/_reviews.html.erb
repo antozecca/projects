@@ -1,0 +1,19 @@
+<!-- app/views/partners/_reviews.html.erb -->
+<h3>Recensioni dei Campi Sportivi</h3>
+
+<% if @reviews.any? %>
+  <ul class="list-group">
+    <% @reviews.each do |review| %>
+      <li class="list-group-item">
+        <h5><%= review.titolo %></h5>
+        <p><strong>Valutazione:</strong> <%= review.valutazione %>/5</p>
+        <p><strong>Campo:</strong> <%= review.field.name %></p>
+        <p><strong>Recensione:</strong> <%= review.testo %></p>
+        <small>Recensito da <%= review.user.username %> il <%= review.created_at.strftime("%d/%m/%Y") %></small>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Non ci sono recensioni disponibili per i tuoi campi sportivi.</p>
+<% end %>
+

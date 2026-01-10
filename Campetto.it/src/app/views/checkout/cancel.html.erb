@@ -1,0 +1,29 @@
+<% content_for :stylesheets do %>
+  <%= stylesheet_link_tag 'checkout_cancel', media: 'all' %>
+<% end %>
+
+<div class="cancel-container">
+  <div class="cancel-message">
+    <i class="fas fa-times-circle" aria-hidden="true"></i>
+    <h1>Prenotazione annullata</h1>
+    <p>
+      La tua prenotazione per
+      <% if @field %>
+        <strong><%= @field.nome %></strong>
+      <% else %>
+        il campo selezionato
+      <% end %>
+      non è stata completata.
+    </p>
+    <p>Se hai bisogno di assistenza, contatta il nostro supporto.</p>
+    <div class="button-group">
+      <% if @field %>
+        <%= link_to 'Riprova', field_path(@field), class: 'btn btn-danger action-button me-2' %>
+      <% else %>
+        <%= link_to 'Riprova', root_path, class: 'btn btn-danger action-button me-2' %>
+      <% end %>
+      <%= link_to 'Torna alla Home', root_path, class: 'btn btn-secondary action-button' %>
+    </div>
+  </div>
+</div>
+

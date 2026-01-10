@@ -1,0 +1,51 @@
+<% content_for :stylesheets do %>
+  <%= stylesheet_link_tag 'edit_profile', media: 'all' %>
+<% end %>
+
+<div class="container mt-5">
+  <div class="form-container mx-auto">
+    <h2 class="text-center mb-4">Modifica il tuo profilo</h2>
+
+    <% if @user.errors.any? %>
+      <div class="alert alert-danger">
+        <h4><%= pluralize(@user.errors.count, "errore") %> trovato:</h4>
+        <ul>
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form_with(model: @user, local: true) do |form| %>
+      <div class="form-group mb-3">
+        <%= form.label :email %>
+        <%= form.email_field :email, class: 'form-control' %>
+      </div>
+
+      <!-- Aggiungi altri campi se necessario -->
+      <div class="form-group mb-3">
+        <%= form.label :nome %>
+        <%= form.text_field :nome, class: 'form-control' %>
+      </div>
+
+      <div class="form-group mb-3">
+        <%= form.label :cognome %>
+        <%= form.text_field :cognome, class: 'form-control' %>
+      </div>
+
+      <div class="form-group mb-3">
+        <%= form.label :password, 'Nuova Password (lascia vuoto se non vuoi cambiarla)' %>
+        <%= form.password_field :password, class: 'form-control' %>
+      </div>
+
+      <div class="form-group mb-3">
+        <%= form.label :password_confirmation, 'Conferma Nuova Password' %>
+        <%= form.password_field :password_confirmation, class: 'form-control' %>
+      </div>
+
+      <%= form.submit 'Aggiorna Profilo', class: 'btn btn-primary mt-3 w-100' %>
+    <% end %>
+  </div>
+</div>
+
