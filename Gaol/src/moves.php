@@ -4,31 +4,31 @@ $mosse = [
     'stregone' => [
         [
             'nome' => 'Colpo di Bastone',
-            'danno' => 15,
+            'danno' => 18,
             'tipo' => 'fisico',
             'livello' => 1,
         ],
         [
             'nome' => 'Palla di Fuoco',
-            'danno' => 30,
+            'danno' => 32,
             'tipo' => 'magico',
             'livello' => 2,
         ],
         [
             'nome' => 'Dardo Magico',
-            'danno' => 40,
+            'danno' => 44,
             'tipo' => 'magico',
             'livello' => 3,
         ],
         [
             'nome' => 'Tempesta Arcana',
-            'danno' => 50,
+            'danno' => 56,
             'tipo' => 'magico',
             'livello' => 4,
         ],
         [
             'nome' => 'Esplosione Astrale',
-            'danno' => 60,
+            'danno' => 70,
             'tipo' => 'magico',
             'livello' => 5,
         ]
@@ -36,31 +36,31 @@ $mosse = [
     'cavaliere' => [
         [
             'nome' => 'Spada Infuocata',
-            'danno' => 20,
+            'danno' => 22,
             'tipo' => 'fisico',
             'livello' => 1,
         ],
         [
             'nome' => 'Colpo di Scudo',
-            'danno' => 25,
+            'danno' => 30,
             'tipo' => 'fisico',
             'livello' => 2,
         ],
         [
             'nome' => 'Assalto',
-            'danno' => 35,
+            'danno' => 40,
             'tipo' => 'fisico',
             'livello' => 3,
         ],
         [
             'nome' => 'Carica Eroica',
-            'danno' => 45,
+            'danno' => 52,
             'tipo' => 'fisico',
             'livello' => 4,
         ],
         [
             'nome' => 'Spadone Divino',
-            'danno' => 55,
+            'danno' => 66,
             'tipo' => 'fisico',
             'livello' => 5
         ]
@@ -68,31 +68,31 @@ $mosse = [
     'cacciatrice' => [
         [
             'nome' => 'Freccia Veloce',
-            'danno' => 18,
+            'danno' => 20,
             'tipo' => 'fisico',
             'livello' => 1
         ],
         [
             'nome' => 'Colpo Critico',
-            'danno' => 25,
+            'danno' => 28,
             'tipo' => 'fisico',
             'livello' => 2
         ],
         [
             'nome' => 'Fendente',
-            'danno' => 35,
+            'danno' => 38,
             'tipo' => 'fisico',
             'livello' => 3,
         ],
         [
             'nome' => 'Freccia Incantata',
-            'danno' => 30,
+            'danno' => 36,
             'tipo' => 'magico',
             'livello' => 4,
         ],
         [
             'nome' => 'Pioggia di Frecce',
-            'danno' => 50,
+            'danno' => 60,
             'tipo' => 'magico',
             'livello' => 5,
         ]
@@ -100,31 +100,31 @@ $mosse = [
     'chierico' => [
         [
             'nome' => 'Mazza Benedetta',
-            'danno' => 15,
+            'danno' => 18,
             'tipo' => 'fisico',
             'livello' => 1,
         ],
         [
             'nome' => 'Luce Sacra',
-            'danno' => 20,
+            'danno' => 24,
             'tipo' => 'magico',
             'livello' => 2,
         ],
         [
             'nome' => 'Furia Divina',
-            'danno' => 30,
+            'danno' => 34,
             'tipo' => 'magico',
             'livello' => 3,
         ],
         [
             'nome' => 'Cura Minore',
-            'danno' => -25,
+            'danno' => -30,
             'tipo' => 'cura',
             'livello' => 4,
         ],
         [
             'nome' => 'Cura Superiore',
-            'danno' => -50,
+            'danno' => -55,
             'tipo' => 'cura',
             'livello' => 5,
         ]

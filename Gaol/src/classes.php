@@ -25,21 +25,23 @@
             <div class="menu">
                 <button class="menu-button">←</button>
             </div>
-            <div class="class-box" id="mage">
-                <img src="/immagini/stregone.png" alt="Stregone">
-                <div class="class-name">Stregone</div>
-            </div>
-            <div class="class-box" id="knight">
-                <img src="/immagini/cavaliere.png" alt="Cavaliere">
-                <div class="class-name">Cavaliere</div>
-            </div>
-            <div class="class-box" id="huntress">
-                <img src="/immagini/cacciatrice.png" alt="Cacciatrice">
-                <div class="class-name">Cacciatrice</div>
-            </div>
-            <div class="class-box" id="cleric">
-                <img src="/immagini/chierico.png" alt="Chierico">
-                <div class="class-name">Chierico</div>
+            <div class="classes-row">
+                <div class="class-box" id="mage">
+                    <img src="/immagini/stregone.png" alt="Stregone">
+                    <div class="class-name">Stregone</div>
+                </div>
+                <div class="class-box" id="knight">
+                    <img src="/immagini/cavaliere.png" alt="Cavaliere">
+                    <div class="class-name">Cavaliere</div>
+                </div>
+                <div class="class-box" id="huntress">
+                    <img src="/immagini/cacciatrice.png" alt="Cacciatrice">
+                    <div class="class-name">Cacciatrice</div>
+                </div>
+                <div class="class-box" id="cleric">
+                    <img src="/immagini/chierico.png" alt="Chierico">
+                    <div class="class-name">Chierico</div>
+                </div>
             </div>
             <div class="username"><?php echo $username; ?></div>
         </div>

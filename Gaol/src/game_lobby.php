@@ -74,8 +74,11 @@
             <div class="button-wrapper">
                 <form id="personaggi-form" method="post" action="game.php">
                     <input type="hidden" id="personaggi-selezionati" name="personaggi">
+                    <input type="hidden" id="party-size" name="partySize">
+                    <input type="hidden" id="avg-level" name="avgLevel">
                     <button id="pronto-button">Pronto</button>
                 </form>
+
             </div>
             <div class="username"><?php echo $username; ?></div>
         </div>
@@ -128,18 +131,47 @@
         document.querySelector('.level-chierico').textContent = "Livello: " + chiericoLivello;
     </script>
     <script>
-        var prontoButton = document.getElementById('pronto-button');
-        var personaggiForm = document.getElementById('personaggi-form');
-        var personaggiSelezionatiInput = document.getElementById('personaggi-selezionati');
+var prontoButton = document.getElementById('pronto-button');
+var personaggiForm = document.getElementById('personaggi-form');
+var personaggiSelezionatiInput = document.getElementById('personaggi-selezionati');
+var partySizeInput = document.getElementById('party-size');
+var avgLevelInput = document.getElementById('avg-level');
 
-        prontoButton.addEventListener('click', function() {
-            var personaggiSelezionati = [];
-            document.querySelectorAll('.personaggio.selected').forEach(function(personaggio) {
-                personaggiSelezionati.push(personaggio.id);
-            });
-            personaggiSelezionatiInput.value = JSON.stringify(personaggiSelezionati);
-            personaggiForm.submit();
-        });
+prontoButton.addEventListener('click', function(e) {
+    e.preventDefault();
+
+    var personaggiSelezionati = [];
+    document.querySelectorAll('.personaggio.selected').forEach(function(personaggio) {
+        personaggiSelezionati.push(personaggio.id);
+    });
+
+    // Sicurezza: obbliga almeno 1 selezione
+    if (personaggiSelezionati.length === 0) {
+        alert('Seleziona almeno un personaggio');
+        return;
+    }
+
+    // party size
+    var partySize = personaggiSelezionati.length;
+
+    // avg level dal localStorage già caricato (datiUtente)
+    var sumLevels = 0;
+    personaggiSelezionati.forEach(function(cls) {
+        var lv = (datiUtente && datiUtente.classes && datiUtente.classes[cls] && datiUtente.classes[cls].livello)
+            ? parseInt(datiUtente.classes[cls].livello, 10)
+            : 1;
+        sumLevels += lv;
+    });
+
+    var avgLevel = Math.round(sumLevels / partySize);
+
+    personaggiSelezionatiInput.value = JSON.stringify(personaggiSelezionati);
+    partySizeInput.value = partySize;
+    avgLevelInput.value = avgLevel;
+
+    personaggiForm.submit();
+});
+
     </script>
 </body>
 </html>
